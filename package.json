@@ -1,0 +1,23 @@
+{
+  "name": "explore-wallet-selector",
+  "private": true,
+  "version": "0.0.1",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "babel-preset-solid": "1.8.15",
+    "solid-element": "1.8.0",
+    "solid-js": "1.8.15"
+  },
+  "devDependencies": {
+    "@trivago/prettier-plugin-sort-imports": "4.3.0",
+    "prettier": "3.2.5",
+    "typescript": "5.4.2",
+    "vite": "5.1.6",
+    "vite-plugin-solid": "2.10.1"
+  }
+}

@@ -1,0 +1,8 @@
+# https://github.com/trivago/prettier-plugin-sort-imports
+# https://github.com/trivago/prettier-plugin-sort-imports/issues/234#issuecomment-1565663814
+# https://prettier.io/docs/en/plugins.html#using-plugins
+plugins:
+  - "@trivago/prettier-plugin-sort-imports"
+importOrder: ["<THIRD_PARTY_MODULES>", "^/", "^\\.\\./", "^\\./"]
+importOrderSeparation: true
+importOrderSortSpecifiers: true
