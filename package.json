@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@ark-ui/solid": "2.2.0",
     "babel-preset-solid": "1.8.15",
     "solid-element": "1.8.0",
     "solid-js": "1.8.15"

@@ -1,8 +1,8 @@
 /* @refresh reload */
 import { render } from "solid-js/web";
 
-import { DApp } from "./App";
+import { ExampleDApp } from "./ExampleDApp";
 
 const root = document.getElementById("root");
 
-render(() => <DApp />, root!);
+render(() => <ExampleDApp />, root!);
