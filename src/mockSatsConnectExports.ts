@@ -67,3 +67,14 @@ export const selectWallet = () => {
     window.dispatchEvent(event);
   });
 };
+
+export function getAvailableWallets(): Array<{ name: string; icon: string }> {
+  return [
+    { name: "Wallet 1", icon: "https://picsum.photos/100" },
+    { name: "Wallet 2", icon: "https://picsum.photos/100" },
+    { name: "Wallet 3", icon: "https://picsum.photos/100" },
+    { name: "Wallet 4", icon: "https://picsum.photos/100" },
+    { name: "Wallet 5", icon: "https://picsum.photos/100" },
+    { name: "Wallet 5", icon: "https://picsum.photos/100" },
+  ];
+}

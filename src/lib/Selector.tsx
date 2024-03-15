@@ -1,14 +1,14 @@
 import { Dialog } from "@ark-ui/solid";
-import { type JSX, createSignal, onCleanup, onMount } from "solid-js";
+import { For, type JSX, createSignal, onCleanup, onMount } from "solid-js";
+
+import { getAvailableWallets } from "../mockSatsConnectExports";
 
 import { CssReset } from "./CssReset";
+import { WalletOption } from "./WalletOption";
 
 export function WalletSelector() {
   const [isOpen, setIsOpen] = createSignal(false);
-  const handleWalletClick: JSX.BoundEventHandler<
-    HTMLButtonElement,
-    MouseEvent
-  >[0] = (wallet) => {
+  function handleWalletSelected(wallet: string) {
     const event = new CustomEvent("sats-connect_wallet-selector_select", {
       detail: wallet,
       bubbles: true,
@@ -16,7 +16,7 @@ export function WalletSelector() {
     });
     window.dispatchEvent(event);
     setIsOpen(false);
-  };
+  }
 
   const handleCancelClick: JSX.EventHandler<
     HTMLButtonElement,
@@ -72,6 +72,7 @@ export function WalletSelector() {
             "background-color": "#FFFFFF80",
             position: "absolute",
             inset: "0",
+            "backdrop-filter": "blur(10px)",
           }}
         />
         <Dialog.Positioner
@@ -89,6 +90,7 @@ export function WalletSelector() {
               "border-radius": "16px",
               "max-width": "424px",
               padding: "24px",
+              "background-color": "#FFFFFF",
             }}
           >
             <Dialog.Title
@@ -111,19 +113,22 @@ export function WalletSelector() {
               Start by selecting with one of the wallets below and confirming
               the connection.
             </Dialog.Description>
-            <ul>
-              <li>
-                <button onClick={[handleWalletClick, "xverse"]}>Xverse</button>
-              </li>
-              <li>
-                <button onClick={[handleWalletClick, "leather"]}>
-                  Leather
-                </button>
-              </li>
-              <li>
-                <button onClick={[handleWalletClick, "unisat"]}>Unisat</button>
-              </li>
-            </ul>
+            <div
+              style={{
+                display: "grid",
+                "grid-template-columns": "repeat(3, 1fr)",
+              }}
+            >
+              <For each={getAvailableWallets()}>
+                {(wallet) => (
+                  <WalletOption
+                    onWalletSelected={handleWalletSelected}
+                    name={wallet.name}
+                    icon={wallet.icon}
+                  />
+                )}
+              </For>
+            </div>
             <button onClick={handleCancelClick}>Cancel</button>
           </Dialog.Content>
         </Dialog.Positioner>
