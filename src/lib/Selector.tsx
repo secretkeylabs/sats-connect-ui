@@ -5,6 +5,7 @@ import { getAvailableWallets } from "../mockSatsConnectExports";
 
 import { CssReset } from "./CssReset";
 import { WalletOption } from "./WalletOption";
+import { XCircle } from "./XCircle";
 
 export function WalletSelector() {
   const [isOpen, setIsOpen] = createSignal(false);
@@ -18,17 +19,14 @@ export function WalletSelector() {
     setIsOpen(false);
   }
 
-  const handleCancelClick: JSX.EventHandler<
-    HTMLButtonElement,
-    MouseEvent
-  > = () => {
+  function handleCancelClick() {
     const event = new CustomEvent("sats-connect_wallet-selector_cancel", {
       bubbles: true,
       composed: true,
     });
     window.dispatchEvent(event);
     setIsOpen(false);
-  };
+  }
 
   onMount(() => {
     console.log("onMount");
@@ -86,9 +84,11 @@ export function WalletSelector() {
         >
           <Dialog.Content
             style={{
+              position: "relative", // For the close button
               border: "1px solid #000000", // For dev only so I can see the dialog
               "border-radius": "16px",
               "max-width": "424px",
+              "max-height": "calc(100% - 50px)",
               padding: "24px",
               "background-color": "#FFFFFF",
             }}
@@ -117,6 +117,8 @@ export function WalletSelector() {
               style={{
                 display: "grid",
                 "grid-template-columns": "repeat(3, 1fr)",
+                "column-gap": "8px",
+                "row-gap": "24px",
               }}
             >
               <For each={getAvailableWallets()}>
@@ -129,7 +131,23 @@ export function WalletSelector() {
                 )}
               </For>
             </div>
-            <button onClick={handleCancelClick}>Cancel</button>
+            <div
+              role="button"
+              tabIndex={0}
+              style={{
+                position: "absolute",
+                top: "16px",
+                right: "16px",
+                background: "none",
+                border: "none",
+                cursor: "pointer",
+                padding: "0",
+                margin: "0",
+              }}
+              onClick={handleCancelClick}
+            >
+              <XCircle />
+            </div>
           </Dialog.Content>
         </Dialog.Positioner>
       </Dialog.Root>
