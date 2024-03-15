@@ -1,8 +1,9 @@
 {
-  "name": "explore-wallet-selector",
+  "name": "wallet-selector",
   "private": true,
   "version": "0.0.1",
   "type": "module",
+  "main": "dist/index.js",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
@@ -12,7 +13,8 @@
     "@ark-ui/solid": "2.2.0",
     "babel-preset-solid": "1.8.15",
     "solid-element": "1.8.0",
-    "solid-js": "1.8.15"
+    "solid-js": "1.8.15",
+    "vite-plugin-dts": "^3.7.3"
   },
   "devDependencies": {
     "@trivago/prettier-plugin-sort-imports": "4.3.0",

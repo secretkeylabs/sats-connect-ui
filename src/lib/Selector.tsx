@@ -44,9 +44,6 @@ export function WalletSelector() {
 
   onMount(() => {
     window.addEventListener("sats-connect_wallet-selector_open", handleOpen);
-  });
-
-  onMount(() => {
     window.addEventListener("sats-connect_wallet-selector_close", handleClose);
   });
 
@@ -61,11 +58,8 @@ export function WalletSelector() {
   return (
     <div
       style={{
-        position: isOpen() ? "absolute" : "static",
-        top: "0",
-        left: "0",
-        right: "0",
-        bottom: "0",
+        position: isOpen() ? "fixed" : "static",
+        inset: "0",
       }}
     >
       <CssReset />

@@ -15,3 +15,10 @@ export function init() {
   walletSelectorElement.id = selectorId;
   document.body.appendChild(walletSelectorElement);
 }
+
+export function cleanup() {
+  const walletSelectorElement = getWalletSelectorElement();
+  if (walletSelectorElement) {
+    walletSelectorElement.remove();
+  }
+}
