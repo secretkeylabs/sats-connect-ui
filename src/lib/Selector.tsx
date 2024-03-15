@@ -1,6 +1,7 @@
 import { Dialog } from "@ark-ui/solid";
-import { type JSX, createSignal, onMount } from "solid-js";
-import { Portal } from "solid-js/web";
+import { type JSX, createSignal, onCleanup, onMount } from "solid-js";
+
+import { CssReset } from "./CssReset";
 
 export function WalletSelector() {
   const [isOpen, setIsOpen] = createSignal(false);
@@ -30,47 +31,108 @@ export function WalletSelector() {
   };
 
   onMount(() => {
-    window.addEventListener("sats-connect_wallet-selector_open", () => {
-      setIsOpen(true);
-    });
+    console.log("onMount");
+  });
+
+  function handleOpen() {
+    setIsOpen(true);
+  }
+
+  function handleClose() {
+    setIsOpen(false);
+  }
+
+  onMount(() => {
+    window.addEventListener("sats-connect_wallet-selector_open", handleOpen);
   });
 
   onMount(() => {
-    window.addEventListener("sats-connect_wallet-selector_close", () => {
-      setIsOpen(false);
-    });
+    window.addEventListener("sats-connect_wallet-selector_close", handleClose);
+  });
+
+  onCleanup(() => {
+    window.removeEventListener("sats-connect_wallet-selector_open", handleOpen);
+    window.removeEventListener(
+      "sats-connect_wallet-selector_close",
+      handleClose,
+    );
   });
 
   return (
-    <div>
-      <Dialog.Root open={isOpen()} onOpenChange={() => setIsOpen(false)}>
-        <Portal>
-          <Dialog.Backdrop />
-          <Dialog.Positioner>
-            <Dialog.Content>
-              <Dialog.Title>Dialog Title</Dialog.Title>
-              <Dialog.Description>Dialog Description</Dialog.Description>
-              <ul>
-                <li>
-                  <button onClick={[handleWalletClick, "xverse"]}>
-                    Xverse
-                  </button>
-                </li>
-                <li>
-                  <button onClick={[handleWalletClick, "leather"]}>
-                    Leather
-                  </button>
-                </li>
-                <li>
-                  <button onClick={[handleWalletClick, "unisat"]}>
-                    Unisat
-                  </button>
-                </li>
-              </ul>
-              <button onClick={handleCancelClick}>Cancel</button>
-            </Dialog.Content>
-          </Dialog.Positioner>
-        </Portal>
+    <div
+      style={{
+        position: isOpen() ? "absolute" : "static",
+        top: "0",
+        left: "0",
+        right: "0",
+        bottom: "0",
+      }}
+    >
+      <CssReset />
+      <Dialog.Root
+        open={isOpen()}
+        onOpenChange={(detail) => setIsOpen(detail.open)}
+      >
+        <Dialog.Backdrop
+          style={{
+            "background-color": "#FFFFFF80",
+            position: "absolute",
+            inset: "0",
+          }}
+        />
+        <Dialog.Positioner
+          style={{
+            position: "absolute",
+            inset: "0",
+            display: "flex",
+            "align-items": "center",
+            "justify-content": "center",
+          }}
+        >
+          <Dialog.Content
+            style={{
+              border: "1px solid #000000", // For dev only so I can see the dialog
+              "border-radius": "16px",
+              "max-width": "424px",
+              padding: "24px",
+            }}
+          >
+            <Dialog.Title
+              style={{
+                "font-weight": "700",
+                "font-size": "18px",
+                margin: "0",
+                "padding-bottom": "16px",
+              }}
+            >
+              Choose wallet to connect
+            </Dialog.Title>
+            <Dialog.Description
+              style={{
+                "font-weight": "400",
+                "font-size": "14px",
+                "padding-bottom": "40px",
+              }}
+            >
+              Start by selecting with one of the wallets below and confirming
+              the connection.
+            </Dialog.Description>
+            <ul>
+              <li>
+                <button onClick={[handleWalletClick, "xverse"]}>Xverse</button>
+              </li>
+              <li>
+                <button onClick={[handleWalletClick, "leather"]}>
+                  Leather
+                </button>
+              </li>
+              <li>
+                <button onClick={[handleWalletClick, "unisat"]}>Unisat</button>
+              </li>
+            </ul>
+            <button onClick={handleCancelClick}>Cancel</button>
+          </Dialog.Content>
+        </Dialog.Positioner>
       </Dialog.Root>
     </div>
   );
