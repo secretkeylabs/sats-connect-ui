@@ -29,6 +29,7 @@ export function WalletOption(props: Props) {
         "align-items": "center",
         cursor: "pointer",
         outline: "none",
+        "padding-top": "10px",
       }}
       onClick={[handleWalletSelected, props.name]}
       onMouseEnter={() => setIsMouseOver(true)}

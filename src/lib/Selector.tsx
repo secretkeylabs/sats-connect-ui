@@ -1,12 +1,5 @@
 import { Dialog } from "@ark-ui/solid";
-import {
-  For,
-  type JSX,
-  Show,
-  createSignal,
-  onCleanup,
-  onMount,
-} from "solid-js";
+import { For, Show, createSignal, onCleanup, onMount } from "solid-js";
 
 import { getAvailableWallets } from "../mockSatsConnectExports";
 
@@ -15,16 +8,10 @@ import { WalletOption } from "./WalletOption";
 import { XCircle } from "./XCircle";
 
 export function WalletSelector() {
-  const [isOpen, setIsOpen] = createSignal(false);
-  function handleWalletSelected(wallet: string) {
-    const event = new CustomEvent("sats-connect_wallet-selector_select", {
-      detail: wallet,
-      bubbles: true,
-      composed: true,
-    });
-    window.dispatchEvent(event);
-    setIsOpen(false);
-  }
+  const [isVisible, setIsVisible] = createSignal(false);
+  const [shouldRender, setShouldRender] = createSignal(false);
+
+  const triggerFadeOut = () => setIsVisible(false);
 
   function handleCancelClick() {
     const event = new CustomEvent("sats-connect_wallet-selector_cancel", {
@@ -32,15 +19,27 @@ export function WalletSelector() {
       composed: true,
     });
     window.dispatchEvent(event);
-    setIsOpen(false);
+    triggerFadeOut();
+  }
+
+  function handleWalletSelected(wallet: string) {
+    const event = new CustomEvent("sats-connect_wallet-selector_select", {
+      detail: wallet,
+      bubbles: true,
+      composed: true,
+    });
+    window.dispatchEvent(event);
+    setIsVisible(false);
+    setShouldRender(false);
   }
 
   function handleOpen() {
-    setIsOpen(true);
+    setIsVisible(true);
+    setShouldRender(true);
   }
 
   function handleClose() {
-    setIsOpen(false);
+    setIsVisible(false);
   }
 
   onMount(() => {
@@ -56,11 +55,6 @@ export function WalletSelector() {
     );
   });
 
-  const [isVisible, setIsVisible] = createSignal(true);
-  const [shouldRender, setShouldRender] = createSignal(true);
-
-  const triggerFadeOut = () => setIsVisible(false);
-
   const handleAnimationEnd = () => {
     if (!isVisible()) {
       setShouldRender(false);
@@ -70,7 +64,7 @@ export function WalletSelector() {
   return (
     <div
       style={{
-        position: isOpen() ? "fixed" : "static",
+        position: shouldRender() ? "fixed" : "static",
         inset: "0",
       }}
     >
@@ -82,8 +76,8 @@ export function WalletSelector() {
         }
 
         @keyframes wallet-selector-fade-out {
-          from {opacity: 1;}
-          to {opacity: 0;}
+          from {opacity: 1; transform: translateY(0);}
+          to {opacity: 0; transform: translateY(40px);}
         }
         @keyframes wallet-selector-blur-in {
           from {opacity: 0; backdrop-filter: blur(0px);}
@@ -91,23 +85,23 @@ export function WalletSelector() {
         }
 
         @keyframes wallet-selector-blur-out {
-          from {opacity: 1;}
-          to {opacity: 0;}
+          from {opacity: 1; backdrop-filter: blur(10px);}
+          to {opacity: 0; backdrop-filter: blur(0px);}
         }
       `}</style>
       <Show when={shouldRender()}>
         <Dialog.Root
-          open={isOpen()}
-          onOpenChange={(detail) => setIsOpen(detail.open)}
+          open={shouldRender()}
+          // onOpenChange={(detail) => setIsOpen(detail.open)}
         >
           <Dialog.Backdrop
             style={{
               "background-color": "#FFFFFF80",
               position: "absolute",
               inset: "0",
-              animation: isOpen()
+              animation: isVisible()
                 ? "wallet-selector-blur-in 0.2s cubic-bezier(.05, .7, .1, 1) forwards"
-                : "none",
+                : "wallet-selector-blur-out 0.2s cubic-bezier(.3, 0, .8, .15) forwards",
             }}
           />
           <Dialog.Positioner
@@ -127,12 +121,12 @@ export function WalletSelector() {
                 "max-height": "calc(100% - 128px)",
                 padding: "24px",
                 "background-color": "#FFFFFF",
-                display: isOpen() ? "flex" : "none",
+                display: shouldRender() ? "flex" : "none",
                 "flex-direction": "column",
                 "box-shadow": "0px 8px 16px #0000000f , 0px 0px 1px #00000031",
-                animation: isOpen()
+                animation: isVisible()
                   ? "wallet-selector-fade-in 0.4s cubic-bezier(.05, .7, .1, 1) forwards"
-                  : "wallet-selector-fade-out",
+                  : "wallet-selector-fade-out 0.2s cubic-bezier(.3, 0, .8, .15) forwards",
               }}
               onAnimationEnd={handleAnimationEnd}
             >
