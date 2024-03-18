@@ -25,12 +25,9 @@ export function ExampleDApp() {
 
   return (
     <div>
-      <h1>This is the DApp</h1>
-      <h2>It's a work in progress</h2>
-
-      <p>Check out some stuff</p>
-
-      <p>Check out some more stuff</p>
+      <h1>This is a mock DApp</h1>
+      <h2>Used to experiment with the wallet selector</h2>
+      <p>Click the button below to see the selector</p>
 
       <div>
         <button onClick={handleButtonClick}>Open wallet selector</button>
