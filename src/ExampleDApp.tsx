@@ -1,6 +1,6 @@
 import { onMount } from "solid-js";
 
-import { init } from "./lib";
+import { registerWalletSelector } from "./lib";
 import { selectWallet } from "./mockSatsConnectExports";
 
 function handleButtonClick() {
@@ -20,7 +20,7 @@ function handleButtonClick() {
 
 export function ExampleDApp() {
   onMount(() => {
-    init();
+    registerWalletSelector();
   });
 
   return (

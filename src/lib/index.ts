@@ -8,7 +8,7 @@ export function getWalletSelectorElement() {
   return document.getElementById(selectorId);
 }
 
-export function init() {
+export function registerWalletSelector() {
   customElement("wallet-selector", WalletSelector);
 
   const walletSelectorElement = document.createElement("wallet-selector");
