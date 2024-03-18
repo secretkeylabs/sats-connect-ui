@@ -1,3 +1,12 @@
+# Wallet Selector Example App
+
+To get started, run the app using
+
+```
+bun install
+bun dev
+```
+
 # Arch
 
 - Using bun

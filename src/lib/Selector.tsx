@@ -42,9 +42,17 @@ export function WalletSelector() {
     setIsVisible(false);
   }
 
+  const handleAnimationEnd = () => {
+    if (!isVisible()) {
+      setShouldRender(false);
+    }
+  };
+
   onMount(() => {
     window.addEventListener("sats-connect_wallet-selector_open", handleOpen);
     window.addEventListener("sats-connect_wallet-selector_close", handleClose);
+
+    // Handle click outside
   });
 
   onCleanup(() => {
@@ -54,12 +62,6 @@ export function WalletSelector() {
       handleClose,
     );
   });
-
-  const handleAnimationEnd = () => {
-    if (!isVisible()) {
-      setShouldRender(false);
-    }
-  };
 
   return (
     <div
@@ -123,6 +125,7 @@ export function WalletSelector() {
                 "background-color": "#FFFFFF",
                 display: shouldRender() ? "flex" : "none",
                 "flex-direction": "column",
+                // border: "1px solid #e4e4e4",
                 "box-shadow": "0px 8px 16px #0000000f , 0px 0px 1px #00000031",
                 animation: isVisible()
                   ? "wallet-selector-fade-in 0.4s cubic-bezier(.05, .7, .1, 1) forwards"
