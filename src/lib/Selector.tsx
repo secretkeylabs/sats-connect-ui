@@ -1,7 +1,7 @@
 import { Dialog } from "@ark-ui/solid";
-import { For, Show, createSignal, onCleanup, onMount } from "solid-js";
+import { For, Show, batch, createSignal, onCleanup, onMount } from "solid-js";
 
-import { getAvailableWallets } from "../mockSatsConnectExports";
+import { ProviderOption } from "../mockSatsConnectExports";
 
 import { CssReset } from "./CssReset";
 import { WalletOption } from "./WalletOption";
@@ -10,6 +10,7 @@ import { XCircle } from "./XCircle";
 export function WalletSelector() {
   const [isVisible, setIsVisible] = createSignal(false);
   const [shouldRender, setShouldRender] = createSignal(false);
+  const [providers, setProviders] = createSignal<Array<ProviderOption>>([]);
 
   const triggerFadeOut = () => setIsVisible(false);
 
@@ -29,13 +30,18 @@ export function WalletSelector() {
       composed: true,
     });
     window.dispatchEvent(event);
-    setIsVisible(false);
-    setShouldRender(false);
+    batch(() => {
+      setIsVisible(false);
+      setShouldRender(false);
+    });
   }
 
-  function handleOpen() {
-    setIsVisible(true);
-    setShouldRender(true);
+  function handleOpen(e: CustomEvent<Array<ProviderOption>>) {
+    batch(() => {
+      setIsVisible(true);
+      setShouldRender(true);
+      setProviders(e.detail);
+    });
   }
 
   function handleClose() {
@@ -200,12 +206,12 @@ export function WalletSelector() {
                     "row-gap": "14px",
                   }}
                 >
-                  <For each={getAvailableWallets()}>
-                    {(wallet) => (
+                  <For each={providers()}>
+                    {(provider) => (
                       <WalletOption
                         onWalletSelected={handleWalletSelected}
-                        name={wallet.name}
-                        icon={wallet.icon}
+                        name={provider.name}
+                        icon={provider.icon}
                       />
                     )}
                   </For>
