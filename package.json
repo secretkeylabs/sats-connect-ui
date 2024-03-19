@@ -10,18 +10,16 @@
     "build-app": "tsc && vite build --config vite.config.app.ts",
     "preview": "vite preview"
   },
-  "dependencies": {
+  "devDependencies": {
     "@ark-ui/solid": "2.2.0",
+    "@trivago/prettier-plugin-sort-imports": "4.3.0",
     "babel-preset-solid": "1.8.15",
+    "prettier": "3.2.5",
     "solid-element": "1.8.0",
     "solid-js": "1.8.15",
-    "vite-plugin-dts": "^3.7.3"
-  },
-  "devDependencies": {
-    "@trivago/prettier-plugin-sort-imports": "4.3.0",
-    "prettier": "3.2.5",
     "typescript": "5.4.2",
-    "vite": "5.1.6",
-    "vite-plugin-solid": "2.10.1"
+    "vite-plugin-dts": "^3.7.3",
+    "vite-plugin-solid": "2.10.1",
+    "vite": "5.1.6"
   }
 }
