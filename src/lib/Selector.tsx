@@ -51,6 +51,18 @@ export function WalletSelector() {
   onMount(() => {
     window.addEventListener("sats-connect_wallet-selector_open", handleOpen);
     window.addEventListener("sats-connect_wallet-selector_close", handleClose);
+
+    // Adds the DM Sans font stylesheet into the document head. Seems fonts
+    // can't (or are difficult) to load from the shadow DOM, yet globally
+    // available fonts are usable within the shadow DOM.
+    document.head.appendChild(
+      (
+        <link
+          href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap"
+          rel="stylesheet"
+        />
+      ) as Node,
+    );
   });
 
   function handleAsCancelled(e: Event) {

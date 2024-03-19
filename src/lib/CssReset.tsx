@@ -21,6 +21,7 @@ Use a better box model (opinionated).
 :host {
 	/* Improve consistency of default fonts in all browsers. (https://github.com/sindresorhus/modern-normalize/issues/3) */
 	font-family:
+		'DM Sans', /* Note: not part of modern-normalize, added specifically for this project. */
 		system-ui,
 		'Segoe UI',
 		Roboto,
