@@ -192,6 +192,8 @@ export function WalletSelector() {
                     "flex-grow": "1",
                     "min-height": "0",
                     "overflow-y": "auto",
+                    "padding-left": "16px",
+                    "padding-right": "16px",
                     display: "grid",
                     "grid-template-columns": "repeat(3, 1fr)",
                     "column-gap": "8px",
