@@ -141,7 +141,6 @@ export function WalletSelector() {
                 "border-radius": "16px",
                 "max-width": "424px",
                 "max-height": "calc(100% - 128px)",
-                padding: "24px",
                 "background-color": "#FFFFFF",
                 display: shouldRender() ? "flex" : "none",
                 "flex-direction": "column",
@@ -157,6 +156,9 @@ export function WalletSelector() {
                   "font-weight": "700",
                   "font-size": "18px",
                   margin: "0",
+                  "padding-top": "24px",
+                  "padding-left": "24px",
+                  "padding-right": "24px",
                   "padding-bottom": "16px",
                 }}
               >
@@ -166,6 +168,8 @@ export function WalletSelector() {
                 style={{
                   "font-weight": "400",
                   "font-size": "14px",
+                  "padding-left": "24px",
+                  "padding-right": "24px",
                   "padding-bottom": "30px",
                 }}
               >
@@ -174,13 +178,20 @@ export function WalletSelector() {
               </Dialog.Description>
               <div
                 style={{
+                  display: "flex",
+                  "flex-direction": "column",
                   "flex-grow": "1",
                   "min-height": "0",
-                  "overflow-y": "auto",
+                  "padding-left": "8px",
+                  "padding-right": "8px",
+                  "padding-bottom": "24px",
                 }}
               >
                 <div
                   style={{
+                    "flex-grow": "1",
+                    "min-height": "0",
+                    "overflow-y": "auto",
                     display: "grid",
                     "grid-template-columns": "repeat(3, 1fr)",
                     "column-gap": "8px",
