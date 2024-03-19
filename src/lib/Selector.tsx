@@ -133,7 +133,7 @@ export function WalletSelector() {
                 "background-color": "#FFFFFF",
                 display: shouldRender() ? "flex" : "none",
                 "flex-direction": "column",
-                "box-shadow": "0px 8px 16px #0000000f , 0px 0px 1px #00000031",
+                "box-shadow": "0px 8px 64px 0px rgba(0, 0, 0, 0.25)",
                 animation: isVisible()
                   ? "wallet-selector-fade-in 0.4s cubic-bezier(.05, .7, .1, 1) forwards"
                   : "wallet-selector-fade-out 0.2s cubic-bezier(.3, 0, .8, .15) forwards",
