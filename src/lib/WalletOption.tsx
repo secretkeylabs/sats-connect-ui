@@ -16,7 +16,8 @@ export function WalletOption(props: Props) {
 
   const isOutlined = () => isMouseOver() || isFocused();
 
-  const outlineColor = "#585a5e";
+  const focusOutlineColor = "rgba(24, 24, 24, 0.20)";
+  const focusTextColor = "rgba(24, 24, 24, 0.60)";
 
   return (
     <div
@@ -43,12 +44,18 @@ export function WalletOption(props: Props) {
           height: "56px",
           "object-fit": "cover",
           "border-radius": "12px",
-          outline: isOutlined() ? `6px solid ${outlineColor}` : "none",
+          outline: isOutlined() ? `6px solid ${focusOutlineColor}` : "none",
         }}
         src={props.icon}
         alt={props.name}
       />
-      <div>{props.name}</div>
+      <div
+        style={{
+          color: isOutlined() ? focusTextColor : undefined,
+        }}
+      >
+        {props.name}
+      </div>
     </div>
   );
 }
