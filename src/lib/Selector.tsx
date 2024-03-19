@@ -51,9 +51,12 @@ export function WalletSelector() {
   onMount(() => {
     window.addEventListener("sats-connect_wallet-selector_open", handleOpen);
     window.addEventListener("sats-connect_wallet-selector_close", handleClose);
-
-    // Handle click outside
   });
+
+  function handleAsCancelled(e: Event) {
+    e.preventDefault();
+    handleCancelClick();
+  }
 
   onCleanup(() => {
     window.removeEventListener("sats-connect_wallet-selector_open", handleOpen);
@@ -63,8 +66,10 @@ export function WalletSelector() {
     );
   });
 
+  const [root, setRoot] = createSignal<HTMLDivElement>();
   return (
     <div
+      ref={setRoot}
       style={{
         position: shouldRender() ? "fixed" : "static",
         inset: "0",
@@ -93,8 +98,11 @@ export function WalletSelector() {
       `}</style>
       <Show when={shouldRender()}>
         <Dialog.Root
+          getRootNode={() => root()?.getRootNode() as Node}
           open={shouldRender()}
-          // onOpenChange={(detail) => setIsOpen(detail.open)}
+          onEscapeKeyDown={handleAsCancelled}
+          onInteractOutside={handleAsCancelled}
+          onPointerDownOutside={handleAsCancelled}
         >
           <Dialog.Backdrop
             style={{
@@ -125,7 +133,6 @@ export function WalletSelector() {
                 "background-color": "#FFFFFF",
                 display: shouldRender() ? "flex" : "none",
                 "flex-direction": "column",
-                // border: "1px solid #e4e4e4",
                 "box-shadow": "0px 8px 16px #0000000f , 0px 0px 1px #00000031",
                 animation: isVisible()
                   ? "wallet-selector-fade-in 0.4s cubic-bezier(.05, .7, .1, 1) forwards"
