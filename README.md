@@ -9,6 +9,10 @@ bun dev
 
 This will run an example app using the selector which can be used during development.
 
+# Viewing live
+
+The example app using the wallet selector is available at <https://sats-connect-ui.netlify.app>.
+
 # Building the `@sats-connect/ui` package
 
 To build the `@sats-connect/ui` package, run
