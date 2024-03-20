@@ -1,17 +1,34 @@
-# Wallet Selector Example App
+# `@sats-connect/ui`
 
-To get started, run
+A Web3 wallet provider selector. Built as a custom element, compatible with all major UI frameworks.
+
+## Basic usage
+
+```ts
+import { registerWalletSelector, selectProvider } from "@sats-connect/ui";
+
+// Call this only once in your app, loads the custom element.
+registerWalletSelector();
+
+// At a later point,
+//
+// 1. Decide which wallet providers should be displayed to the user
+// 2. Display the selector and capture the user's selection
+
+// (1)
+const providersToDisplay = someBusinessLogic();
+// (2)
+const userSelectedProviderId = await selectProvider();
+```
+
+# Development
+
+An example app using the selector is included for convenience during development. To get started, run
 
 ```bash
 npm install
 npm run dev
 ```
-
-This will run an example app using the selector which can be used during development.
-
-# Viewing live
-
-The example app using the wallet selector is available at <https://sats-connect-ui.netlify.app>.
 
 # Building the `@sats-connect/ui` package
 
@@ -28,6 +45,10 @@ To build the example app use
 ```bash
 npm run build-app
 ```
+
+## Viewing the example app live
+
+The latest version of the example app is available at <https://sats-connect-ui.netlify.app>.
 
 # Arch
 
