@@ -1,10 +1,10 @@
 import { onMount } from "solid-js";
 
-import { registerWalletSelector } from "./lib";
-import { selectWallet } from "./mockSatsConnectExports";
+import { registerWalletSelector, selectProvider } from "./lib/utils";
+import { mockGetAvailableProviders } from "./mocks";
 
 function handleButtonClick() {
-  selectWallet()
+  selectProvider(mockGetAvailableProviders())
     .then(
       (wallet) => {
         console.log("Wallet selected", wallet);

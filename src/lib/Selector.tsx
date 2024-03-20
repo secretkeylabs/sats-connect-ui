@@ -1,11 +1,10 @@
 import { Dialog } from "@ark-ui/solid";
 import { For, Show, batch, createSignal, onCleanup, onMount } from "solid-js";
 
-import { ProviderOption } from "../mockSatsConnectExports";
-
 import { CssReset } from "./CssReset";
 import { WalletOption } from "./WalletOption";
 import { XCircle } from "./XCircle";
+import { ProviderOption } from "./utils";
 
 export function WalletSelector() {
   const [isVisible, setIsVisible] = createSignal(false);
