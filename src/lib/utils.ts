@@ -29,7 +29,9 @@ export interface ProviderOption {
   icon: string;
 }
 
-export function selectProvider(providers: Array<ProviderOption>) {
+export function selectProvider(
+  providers: Array<ProviderOption>,
+): Promise<string> {
   return new Promise((resolve, reject) => {
     const walletSelectorElement = getWalletSelectorElement();
     if (!walletSelectorElement) {
