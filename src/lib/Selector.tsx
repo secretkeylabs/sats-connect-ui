@@ -2,7 +2,7 @@ import { Dialog } from "@ark-ui/solid";
 import { For, Show, batch, createSignal, onCleanup, onMount } from "solid-js";
 
 import { CssReset } from "./CssReset";
-import { WalletOption } from "./WalletOption";
+import { WalletOption } from "./ProviderOption";
 import { XCircle } from "./XCircle";
 import { ProviderOption } from "./utils";
 
@@ -22,9 +22,9 @@ export function WalletSelector() {
     triggerFadeOut();
   }
 
-  function handleWalletSelected(wallet: string) {
+  function handleWalletSelected(walletId: string) {
     const event = new CustomEvent("sats-connect_wallet-selector_select", {
-      detail: wallet,
+      detail: walletId,
       bubbles: true,
       composed: true,
     });
@@ -208,9 +208,8 @@ export function WalletSelector() {
                   <For each={providers()}>
                     {(provider) => (
                       <WalletOption
+                        {...provider}
                         onWalletSelected={handleWalletSelected}
-                        name={provider.name}
-                        icon={provider.icon}
                       />
                     )}
                   </For>

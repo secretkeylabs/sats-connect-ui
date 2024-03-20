@@ -23,10 +23,15 @@ export function cleanup() {
   }
 }
 
+export interface InstallPrompt {
+  url: string;
+}
+
 export interface ProviderOption {
   name: string;
   id: string;
   icon: string;
+  installPrompt?: InstallPrompt;
 }
 
 export function selectProvider(

@@ -1,14 +1,19 @@
 import { createSignal } from "solid-js";
 
-interface Props {
-  name: string;
-  icon: string;
-  onWalletSelected: (wallet: string) => void;
+import { ProviderOption } from "./utils";
+
+interface Props extends ProviderOption {
+  onWalletSelected: (walletId: string) => void;
 }
 
 export function WalletOption(props: Props) {
-  function handleWalletSelected(wallet: string) {
-    props.onWalletSelected(wallet);
+  function handleWalletSelected(walletId: string) {
+    if (props.installPrompt) {
+      window.open(props.installPrompt.url, "_blank");
+      return;
+    }
+
+    props.onWalletSelected(walletId);
   }
 
   const [isMouseOver, setIsMouseOver] = createSignal(false);
@@ -21,7 +26,7 @@ export function WalletOption(props: Props) {
 
   return (
     <div
-      role="button"
+      role={props.installPrompt ? "link" : "button"}
       tabIndex={0}
       style={{
         display: "flex",
@@ -32,7 +37,7 @@ export function WalletOption(props: Props) {
         outline: "none",
         "padding-top": "10px",
       }}
-      onClick={[handleWalletSelected, props.name]}
+      onClick={[handleWalletSelected, props.id]}
       onMouseEnter={() => setIsMouseOver(true)}
       onMouseLeave={() => setIsMouseOver(false)}
       onFocus={() => setIsFocused(true)}
