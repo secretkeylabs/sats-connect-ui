@@ -7,13 +7,31 @@ interface Props extends ProviderOption {
 }
 
 export function WalletOption(props: Props) {
-  function handleWalletSelected(walletId: string) {
+  function handleWalletSelected() {
     if (props.installPrompt) {
       window.open(props.installPrompt.url, "_blank");
       return;
     }
 
-    props.onWalletSelected(walletId);
+    props.onWalletSelected(props.id);
+  }
+
+  function handleKeyDown(e: KeyboardEvent) {
+    if (props.installPrompt) {
+      // Handle required ARIA keyboard events for links
+      // https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/link_role
+      if (e.key === "Enter") {
+        handleWalletSelected();
+        return;
+      }
+      return;
+    }
+
+    // Handle required ARIA keyboard events for buttons
+    // https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/button_role
+    if (e.key === "Enter" || e.key === " ") {
+      handleWalletSelected();
+    }
   }
 
   const [isMouseOver, setIsMouseOver] = createSignal(false);
@@ -37,7 +55,8 @@ export function WalletOption(props: Props) {
         outline: "none",
         "padding-top": "10px",
       }}
-      onClick={[handleWalletSelected, props.id]}
+      onClick={handleWalletSelected}
+      onKeyDown={handleKeyDown}
       onMouseEnter={() => setIsMouseOver(true)}
       onMouseLeave={() => setIsMouseOver(false)}
       onFocus={() => setIsFocused(true)}
