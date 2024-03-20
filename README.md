@@ -3,8 +3,8 @@
 To get started, run
 
 ```bash
-bun install
-bun dev
+npm install
+npm run dev
 ```
 
 This will run an example app using the selector which can be used during development.
@@ -18,7 +18,7 @@ The example app using the wallet selector is available at <https://sats-connect-
 To build the `@sats-connect/ui` package, run
 
 ```bash
-bun build
+npm run build
 ```
 
 # Building the example app
@@ -26,12 +26,11 @@ bun build
 To build the example app use
 
 ```bash
-bun build-app
+npm run build-app
 ```
 
 # Arch
 
-- Using bun
 - Using Solid.js: no runtime, compiler
   - [Web component buider](https://github.com/solidjs/solid/tree/main/packages/solid-element#readme) (preserves reactivity)
 - Styles inline b/c no style frameworks work to build custom elements

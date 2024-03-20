@@ -20,7 +20,7 @@
     "solid-element": "1.8.0",
     "solid-js": "1.8.15",
     "typescript": "5.4.2",
-    "vite-plugin-dts": "^3.7.3",
+    "vite-plugin-dts": "3.7.3",
     "vite-plugin-solid": "2.10.1",
     "vite": "5.1.6"
   }
