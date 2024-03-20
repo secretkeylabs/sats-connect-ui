@@ -57,6 +57,7 @@ export function WalletOption(props: Props) {
       <div
         style={{
           color: isOutlined() ? focusTextColor : undefined,
+          "text-align": "center",
         }}
       >
         {props.name}
