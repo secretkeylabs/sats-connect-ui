@@ -1,5 +1,5 @@
 {
-  "name": "wallet-selector",
+  "name": "@sats-connect/ui",
   "private": true,
   "version": "0.0.1",
   "type": "module",
