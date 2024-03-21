@@ -202,6 +202,7 @@ export function WalletProviderSelector() {
                     "overflow-y": "auto",
                     "padding-left": "16px",
                     "padding-right": "16px",
+                    "padding-bottom": "40px",
                     display: "grid",
                     "grid-template-columns": "repeat(3, 1fr)",
                     "column-gap": "8px",
