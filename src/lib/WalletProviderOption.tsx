@@ -1,8 +1,8 @@
 import { createSignal } from "solid-js";
 
-import { ProviderOption } from "./utils";
+import { WalletProviderOption } from "./utils";
 
-interface Props extends ProviderOption {
+interface Props extends WalletProviderOption {
   onProviderSelected: (walletId: string) => void;
 }
 

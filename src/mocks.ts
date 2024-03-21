@@ -1,6 +1,6 @@
-import { ProviderOption } from "./lib";
+import { WalletProviderOption } from "./lib";
 
-export function mockGetAvailableProviders(): Array<ProviderOption> {
+export function mockGetAvailableProviders(): Array<WalletProviderOption> {
   return [
     {
       name: "Walet (uninstalled)",

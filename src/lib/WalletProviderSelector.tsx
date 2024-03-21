@@ -5,12 +5,14 @@ import { CssReset } from "./CssReset";
 import { WalletProviderOption } from "./WalletProviderOption";
 import { XCircle } from "./XCircle";
 import { cancel, close, open, select } from "./constants";
-import { ProviderOption } from "./utils";
+import { WalletProviderOption as TWalletProviderOption } from "./utils";
 
 export function WalletProviderSelector() {
   const [isVisible, setIsVisible] = createSignal(false);
   const [shouldRender, setShouldRender] = createSignal(false);
-  const [providers, setProviders] = createSignal<Array<ProviderOption>>([]);
+  const [providers, setProviders] = createSignal<Array<TWalletProviderOption>>(
+    [],
+  );
 
   const triggerFadeOut = () => setIsVisible(false);
 
@@ -36,7 +38,7 @@ export function WalletProviderSelector() {
     });
   }
 
-  function handleOpen(e: CustomEvent<Array<ProviderOption>>) {
+  function handleOpen(e: CustomEvent<Array<TWalletProviderOption>>) {
     batch(() => {
       setIsVisible(true);
       setShouldRender(true);
