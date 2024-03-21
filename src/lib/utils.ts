@@ -13,7 +13,7 @@ export function getWalletProviderSelectorElement() {
 /**
  * Call this once in your app to register the wallet provider selector element.
  */
-export function registerWalletSelector() {
+export function registerElement() {
   if (customElements.get(elementName)) {
     return;
   }

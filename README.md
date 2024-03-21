@@ -5,20 +5,20 @@ A Web3 wallet provider selector. Built as a custom element, compatible with all 
 ## Basic usage
 
 ```ts
-import { registerWalletSelector, selectProvider } from "@sats-connect/ui";
+import { registerElement, selectWalletProvider } from "@sats-connect/ui";
 
 // Call this only once in your app, loads the custom element.
-registerWalletSelector();
+registerElement();
 
 // At a later point,
 //
-// 1. Decide which wallet providers should be displayed to the user
-// 2. Display the selector and capture the user's selection
+// 1. Decide which wallet providers should be displayed to the user.
+// 2. Display the selector and capture the user's selection.
 
 // (1)
 const providersToDisplay = someBusinessLogic();
 // (2)
-const userSelectedProviderId = await selectProvider();
+const userSelectedProviderId = await selectWalletProvider();
 ```
 
 # Development

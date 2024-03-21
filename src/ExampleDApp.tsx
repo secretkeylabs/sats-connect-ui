@@ -1,7 +1,7 @@
-import { registerWalletSelector, selectWalletProvider } from "./lib/utils";
+import { registerElement, selectWalletProvider } from "./lib/utils";
 import { mockGetAvailableProviders } from "./mocks";
 
-registerWalletSelector();
+registerElement();
 
 function handleButtonClick() {
   selectWalletProvider(mockGetAvailableProviders())
