@@ -1,0 +1,40 @@
+name: Build and Publish NPM package
+
+on:
+  pull_request:
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          registry-url: "https://registry.npmjs.org"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run build
+        run: npm run build
+
+      - id: current-version
+        name: Get current version
+        run: echo "CURRENT_VERSION=$(npm pkg get version  | tr -d '"')" >> $GITHUB_OUTPUT
+
+      - id: sha
+        name: Get commit sha
+        run: echo "SHA=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+
+      - name: Set publish version
+        run: npm version --no-git-tag-version $CURRENT_VERSION-$SHA
+        env:
+          SHA: ${{ steps.sha.outputs.SHA }}
+          CURRENT_VERSION: ${{ steps.current-version.outputs.CURRENT_VERSION }}
+
+      - name: Publish to NPM package registry
+        run: npm publish --tag pr-$PR_NUMBER
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_PACKAGE_REGISTRY_TOKEN }}
+          PR_NUMBER: ${{ github.event.number }}
