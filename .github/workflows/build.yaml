@@ -15,14 +15,13 @@ jobs:
           registry-url: "https://registry.npmjs.org"
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
       - name: Run build
         run: npm run build
 
-      - run: npm ci
-
-      - run: npm publish
+      - name: Publish to NPM package registry
+        run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_PACKAGE_REGISTRY_TOKEN }}
 
@@ -36,13 +35,12 @@ jobs:
           registry-url: "https://npm.pkg.github.com"
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
       - name: Run build
         run: npm run build
 
-      - run: npm ci
-
-      - run: npm publish
+      - name: Publish to Github package registry
+        run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GH_PACKAGE_REGISTRY_TOKEN }}
