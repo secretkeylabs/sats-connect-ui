@@ -5,7 +5,7 @@ import { CssReset } from "./CssReset";
 import { WalletProviderOption } from "./WalletProviderOption";
 import { XCircle } from "./XCircle";
 import { cancel, close, open, select } from "./constants";
-import { WalletProviderOption as TWalletProviderOption } from "./utils";
+import { TWalletProviderOption } from "./utils";
 
 export function WalletProviderSelector() {
   const [isVisible, setIsVisible] = createSignal(false);

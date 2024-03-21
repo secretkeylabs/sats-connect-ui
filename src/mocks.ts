@@ -1,6 +1,6 @@
-import { WalletProviderOption } from "./lib";
+import { TWalletProviderOption } from "./lib";
 
-export function mockGetAvailableProviders(): Array<WalletProviderOption> {
+export function mockGetAvailableProviders(): Array<TWalletProviderOption> {
   return [
     {
       name: "Walet (uninstalled)",

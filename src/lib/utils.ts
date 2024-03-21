@@ -36,7 +36,7 @@ export interface InstallPrompt {
   url: string;
 }
 
-export interface WalletProviderOption {
+export interface TWalletProviderOption {
   name: string;
   id: string;
   icon: string;
@@ -44,7 +44,7 @@ export interface WalletProviderOption {
 }
 
 export function selectWalletProvider(
-  walletProviders: Array<WalletProviderOption>,
+  walletProviders: Array<TWalletProviderOption>,
 ): Promise<string> {
   return new Promise((resolve, reject) => {
     const walletSelectorElement = getWalletProviderSelectorElement();
