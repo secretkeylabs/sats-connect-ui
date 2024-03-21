@@ -1,10 +1,10 @@
-import { onMount } from "solid-js";
-
-import { registerWalletSelector, selectProvider } from "./lib/utils";
+import { registerWalletSelector, selectWalletProvider } from "./lib/utils";
 import { mockGetAvailableProviders } from "./mocks";
 
+registerWalletSelector();
+
 function handleButtonClick() {
-  selectProvider(mockGetAvailableProviders())
+  selectWalletProvider(mockGetAvailableProviders())
     .then(
       (wallet) => {
         console.log("Wallet selected", wallet);
@@ -19,10 +19,6 @@ function handleButtonClick() {
 }
 
 export function ExampleDApp() {
-  onMount(() => {
-    registerWalletSelector();
-  });
-
   return (
     <div>
       <h1>This is a mock DApp</h1>

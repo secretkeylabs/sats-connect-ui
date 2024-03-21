@@ -1,25 +1,34 @@
 import { customElement } from "solid-element";
 
-import { WalletSelector } from "./Selector";
+import { WalletProviderSelector } from "./WalletProviderSelector";
+import { cancel, open, select } from "./constants";
 
-export const selectorId = "sats-connect-wallet-selector";
+export const elementId = "sats-connect-wallet-provider-selector";
+export const elementName = elementId;
 
-export function getWalletSelectorElement() {
-  return document.getElementById(selectorId);
+export function getWalletProviderSelectorElement() {
+  return document.getElementById(elementId);
 }
 
+/**
+ * Call this once in your app to register the wallet provider selector element.
+ */
 export function registerWalletSelector() {
-  customElement("wallet-selector", WalletSelector);
+  if (customElements.get(elementName)) {
+    return;
+  }
 
-  const walletSelectorElement = document.createElement("wallet-selector");
-  walletSelectorElement.id = selectorId;
-  document.body.appendChild(walletSelectorElement);
+  customElement(elementName, WalletProviderSelector);
+
+  const element = document.createElement(elementName);
+  element.id = elementId;
+  document.body.appendChild(element);
 }
 
 export function cleanup() {
-  const walletSelectorElement = getWalletSelectorElement();
-  if (walletSelectorElement) {
-    walletSelectorElement.remove();
+  const element = getWalletProviderSelectorElement();
+  if (element) {
+    element.remove();
   }
 }
 
@@ -34,28 +43,20 @@ export interface ProviderOption {
   installPrompt?: InstallPrompt;
 }
 
-export function selectProvider(
-  providers: Array<ProviderOption>,
+export function selectWalletProvider(
+  walletProviders: Array<ProviderOption>,
 ): Promise<string> {
   return new Promise((resolve, reject) => {
-    const walletSelectorElement = getWalletSelectorElement();
+    const walletSelectorElement = getWalletProviderSelectorElement();
     if (!walletSelectorElement) {
-      reject(
-        "Failed to detect the wallet selector, aborting wallet selection.",
-      );
+      reject("Failed to detect the wallet provider selector.");
       return;
     }
 
     function cleanup() {
-      window.removeEventListener(
-        "sats-connect_wallet-selector_select",
-        handleWalletSelectorSelectEvent,
-      );
+      window.removeEventListener(select, handleWalletSelectorSelectEvent);
 
-      window.removeEventListener(
-        "sats-connect_wallet-selector_cancel",
-        handleWalletSelectorCancelEvent,
-      );
+      window.removeEventListener(cancel, handleWalletSelectorCancelEvent);
     }
 
     function handleWalletSelectorSelectEvent(event: CustomEvent<string>) {
@@ -68,18 +69,12 @@ export function selectProvider(
       cleanup();
     }
 
-    window.addEventListener(
-      "sats-connect_wallet-selector_select",
-      handleWalletSelectorSelectEvent,
-    );
+    window.addEventListener(select, handleWalletSelectorSelectEvent);
 
-    window.addEventListener(
-      "sats-connect_wallet-selector_cancel",
-      handleWalletSelectorCancelEvent,
-    );
+    window.addEventListener(cancel, handleWalletSelectorCancelEvent);
 
-    const event = new CustomEvent("sats-connect_wallet-selector_open", {
-      detail: providers,
+    const event = new CustomEvent(open, {
+      detail: walletProviders,
     });
     window.dispatchEvent(event);
   });

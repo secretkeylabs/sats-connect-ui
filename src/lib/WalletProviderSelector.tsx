@@ -2,11 +2,12 @@ import { Dialog } from "@ark-ui/solid";
 import { For, Show, batch, createSignal, onCleanup, onMount } from "solid-js";
 
 import { CssReset } from "./CssReset";
-import { WalletOption } from "./ProviderOption";
+import { WalletProviderOption } from "./WalletProviderOption";
 import { XCircle } from "./XCircle";
+import { cancel, close, open, select } from "./constants";
 import { ProviderOption } from "./utils";
 
-export function WalletSelector() {
+export function WalletProviderSelector() {
   const [isVisible, setIsVisible] = createSignal(false);
   const [shouldRender, setShouldRender] = createSignal(false);
   const [providers, setProviders] = createSignal<Array<ProviderOption>>([]);
@@ -14,7 +15,7 @@ export function WalletSelector() {
   const triggerFadeOut = () => setIsVisible(false);
 
   function handleCancelClick() {
-    const event = new CustomEvent("sats-connect_wallet-selector_cancel", {
+    const event = new CustomEvent(cancel, {
       bubbles: true,
       composed: true,
     });
@@ -23,7 +24,7 @@ export function WalletSelector() {
   }
 
   function handleWalletSelected(walletId: string) {
-    const event = new CustomEvent("sats-connect_wallet-selector_select", {
+    const event = new CustomEvent(select, {
       detail: walletId,
       bubbles: true,
       composed: true,
@@ -54,8 +55,8 @@ export function WalletSelector() {
   };
 
   onMount(() => {
-    window.addEventListener("sats-connect_wallet-selector_open", handleOpen);
-    window.addEventListener("sats-connect_wallet-selector_close", handleClose);
+    window.addEventListener(open, handleOpen);
+    window.addEventListener(close, handleClose);
 
     // Adds the DM Sans font stylesheet into the document head. Seems fonts
     // can't (or are difficult) to load from the shadow DOM, yet globally
@@ -76,7 +77,7 @@ export function WalletSelector() {
   }
 
   onCleanup(() => {
-    window.removeEventListener("sats-connect_wallet-selector_open", handleOpen);
+    window.removeEventListener(open, handleOpen);
     window.removeEventListener(
       "sats-connect_wallet-selector_close",
       handleClose,
@@ -202,14 +203,14 @@ export function WalletSelector() {
                     display: "grid",
                     "grid-template-columns": "repeat(3, 1fr)",
                     "column-gap": "8px",
-                    "row-gap": "14px",
+                    "row-gap": "6px",
                   }}
                 >
                   <For each={providers()}>
                     {(provider) => (
-                      <WalletOption
+                      <WalletProviderOption
                         {...provider}
-                        onWalletSelected={handleWalletSelected}
+                        onProviderSelected={handleWalletSelected}
                       />
                     )}
                   </For>
