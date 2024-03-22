@@ -82,10 +82,7 @@ export function WalletProviderSelector() {
 
   onCleanup(() => {
     window.removeEventListener(open, handleOpen);
-    window.removeEventListener(
-      "sats-connect_wallet-selector_close",
-      handleClose,
-    );
+    window.removeEventListener(close, handleClose);
   });
 
   const [root, setRoot] = createSignal<HTMLDivElement>();
