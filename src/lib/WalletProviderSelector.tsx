@@ -60,9 +60,11 @@ export function WalletProviderSelector() {
     window.addEventListener(open, handleOpen);
     window.addEventListener(close, handleClose);
 
-    // Adds the DM Sans font stylesheet into the document head. Seems fonts
-    // can't (or are difficult) to load from the shadow DOM, yet globally
+    // Adds the DM Sans font stylesheet into the document head. Fonts don't seem
+    // to be picked up when imported from witin the shadow DOM, yet globally
     // available fonts are usable within the shadow DOM.
+    //
+    // See: https://stackoverflow.com/q/78204762/1494725
     document.head.appendChild(
       (
         <link

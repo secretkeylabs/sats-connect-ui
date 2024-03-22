@@ -11,9 +11,10 @@ export function getWalletProviderSelectorElement() {
 }
 
 /**
- * Call this once in your app to register the wallet provider selector element.
+ * Call this once in your app. It registers the selector's custom element
+ * definition and adds it to the `<body>`.
  */
-export function registerElement() {
+export function loadSelector() {
   if (customElements.get(elementName)) {
     return;
   }
