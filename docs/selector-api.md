@@ -29,4 +29,4 @@ For convenience, the `selectWalletProvider()` method is provided to perform the 
 
 ## A note on Typescript
 
-The event names used by the selector are defined in [`selector-events.ts`](../src/selector-events.ts), which is necessary to satisfy the compiler.
+The event names used by the selector are defined in [`selector-events.ts`](../src/lib/selector-events.ts), which is necessary to satisfy the compiler.
