@@ -18,7 +18,7 @@ loadSelector();
 // (1)
 const providersToDisplay = someBusinessLogic();
 // (2)
-const userSelectedProviderId = await selectWalletProvider();
+const userSelectedProviderId = await selectWalletProvider(providersToDisplay);
 ```
 
 # Development
