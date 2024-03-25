@@ -34,7 +34,7 @@ jobs:
           CURRENT_VERSION: ${{ steps.current-version.outputs.CURRENT_VERSION }}
 
       - name: Publish to NPM package registry
-        run: npm publish --tag pr-$PR_NUMBER
+        run: npm publish --access=public --tag pr-$PR_NUMBER
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_PACKAGE_REGISTRY_TOKEN }}
           PR_NUMBER: ${{ github.event.number }}
