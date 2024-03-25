@@ -44,9 +44,9 @@ export interface TWalletProviderOption {
   installPrompt?: InstallPrompt;
 }
 
-export function selectWalletProvider(
-  walletProviders: Array<TWalletProviderOption>,
-): Promise<string> {
+export type Config = Array<TWalletProviderOption>;
+
+export function selectWalletProvider(config: Config): Promise<string> {
   return new Promise((resolve, reject) => {
     const walletSelectorElement = getWalletProviderSelectorElement();
     if (!walletSelectorElement) {
@@ -75,7 +75,7 @@ export function selectWalletProvider(
     window.addEventListener(cancel, handleWalletSelectorCancelEvent);
 
     const event = new CustomEvent(open, {
-      detail: walletProviders,
+      detail: config,
     });
     window.dispatchEvent(event);
   });

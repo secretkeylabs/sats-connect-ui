@@ -2,7 +2,25 @@
 
 Interaction with the selector is done by means of custom events. The selector sets up event listeners when it mounts, and convenience methods are available to interact with the selector.
 
-For convenience, all the events are emitted to and listened from `window`.
+For consistency and practicality, all the events are emitted to and listened from `window`.
+
+## Loading the selector
+
+Before use, the selector needs to be registered as a custom element and insterted into the DOM. The `loadSelector()` helper function facilitates both these actions, ensuring the selector is properly registered and added to the page.
+
+## Events API
+
+Events are used to interact with the selector.
+
+### Listeners
+
+- **open** `"sats-connect_wallet-provider-selector_open"`: The selector will open and display the providers as configured using custom event's `details` property, which is expected to be of type [`Config`](../src/lib/utils.ts)
+- **close** `"sats-connect_wallet-provider-selector_close"`: The selector will close if open.
+
+### Emitted events
+
+- **select**: `"sats-connect_wallet-provider-selector_select"`: Emitted when the user selects a provider. The selected provider ID is in the custom event's `details` property.
+- **cancel** `"sats-connect_wallet-provider-selector_cancel"`: Emitted when the user closes the selector.
 
 ## Request flow
 

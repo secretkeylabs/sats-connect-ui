@@ -7,7 +7,7 @@ A Bitcoin Web3 wallet provider selector. Built as a custom element, compatible w
 ```ts
 import { loadSelector, selectWalletProvider } from "@sats-connect/ui";
 
-// Call this once in your app, loads the custom element.
+// Call this once in your app to load the custom element.
 loadSelector();
 
 // At a later point,

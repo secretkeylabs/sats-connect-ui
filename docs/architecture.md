@@ -1,6 +1,6 @@
 # Architecture
 
-The UI for the wallet provider selector is made available through a [custom element](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_custom_elements) Custom elements are easy to integrate in just about any web project. Methods detailed in [Component API](./component-api.md) are provided to interact with the selector.
+The UI for the wallet provider selector is made available through a [custom element](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_custom_elements). Custom elements are easy to integrate in just about any web project. Methods detailed in [Selector API](./selector-api.md) are provided to interact with the selector.
 
 ## Reactivity
 
@@ -8,7 +8,7 @@ The selector uses [Solid](https://www.solidjs.com/) for component logic and reac
 
 ## Building the custom element
 
-Solid, like other popular component frameworks, is usually used to manipulate the DOM. To encapsualte the selector's logic into a custom element, the [`solid-element`](https://github.com/solidjs/solid/tree/main/packages/solid-element#readme) package is used.
+Solid, like other popular component frameworks, is usually used to manipulate the DOM. To encapsulate the selector's logic into a custom element, the [`solid-element`](https://github.com/solidjs/solid/tree/main/packages/solid-element#readme) package is used.
 
 ## Styles
 
