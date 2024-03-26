@@ -1,3 +1,4 @@
+import { SupportedWallet } from "@sats-connect/core";
 import { customElement } from "solid-element";
 
 import { WalletProviderSelector } from "./WalletProviderSelector";
@@ -37,14 +38,9 @@ export interface InstallPrompt {
   url: string;
 }
 
-export interface TWalletProviderOption {
-  name: string;
-  id: string;
-  icon: string;
-  installPrompt?: InstallPrompt;
+export interface Config {
+  providers: SupportedWallet[];
 }
-
-export type Config = Array<TWalletProviderOption>;
 
 export function selectWalletProvider(config: Config): Promise<string> {
   return new Promise((resolve, reject) => {

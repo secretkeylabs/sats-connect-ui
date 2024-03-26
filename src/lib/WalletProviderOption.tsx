@@ -1,36 +1,39 @@
-import { createSignal } from "solid-js";
+import { SupportedWallet } from "@sats-connect/core";
+import { createMemo, createSignal } from "solid-js";
 
-import { TWalletProviderOption } from "./utils";
-
-interface Props extends TWalletProviderOption {
+interface Props extends SupportedWallet {
   onProviderSelected: (walletId: string) => void;
 }
 
 export function WalletProviderOption(props: Props) {
   function handleWalletSelected() {
-    if (props.installPrompt) {
-      window.open(props.installPrompt.url, "_blank");
+    if (!props.isInstalled) {
+      window.open(props.googlePlayStoreUrl, "_blank");
       return;
     }
 
     props.onProviderSelected(props.id);
   }
 
+  const role = createMemo(() => (props.isInstalled ? "button" : "link"));
+
   function handleKeyDown(e: KeyboardEvent) {
-    if (props.installPrompt) {
+    if (role() === "link") {
       // Handle required ARIA keyboard events for links
       // https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/link_role
       if (e.key === "Enter") {
         handleWalletSelected();
-        return;
       }
       return;
     }
 
-    // Handle required ARIA keyboard events for buttons
-    // https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/button_role
-    if (e.key === "Enter" || e.key === " ") {
-      handleWalletSelected();
+    if (role() === "button") {
+      // Handle required ARIA keyboard events for buttons
+      // https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/button_role
+      if (e.key === "Enter" || e.key === " ") {
+        handleWalletSelected();
+      }
+      return;
     }
   }
 
@@ -44,7 +47,7 @@ export function WalletProviderOption(props: Props) {
 
   return (
     <div
-      role={props.installPrompt ? "link" : "button"}
+      role={role()}
       tabIndex={0}
       style={{
         display: "flex",

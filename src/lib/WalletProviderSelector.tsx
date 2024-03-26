@@ -1,18 +1,17 @@
 import { Dialog } from "@ark-ui/solid";
+import { SupportedWallet } from "@sats-connect/core";
 import { For, Show, batch, createSignal, onCleanup, onMount } from "solid-js";
 
 import { CssReset } from "./CssReset";
 import { WalletProviderOption } from "./WalletProviderOption";
 import { XCircle } from "./XCircle";
 import { cancel, close, open, select } from "./constants";
-import { TWalletProviderOption } from "./utils";
+import { Config } from "./utils";
 
 export function WalletProviderSelector() {
   const [isVisible, setIsVisible] = createSignal(false);
   const [shouldRender, setShouldRender] = createSignal(false);
-  const [providers, setProviders] = createSignal<Array<TWalletProviderOption>>(
-    [],
-  );
+  const [providers, setProviders] = createSignal<Array<SupportedWallet>>([]);
 
   const triggerFadeOut = () => setIsVisible(false);
 
@@ -38,11 +37,11 @@ export function WalletProviderSelector() {
     });
   }
 
-  function handleOpen(e: CustomEvent<Array<TWalletProviderOption>>) {
+  function handleOpen(e: CustomEvent<Config>) {
     batch(() => {
       setIsVisible(true);
       setShouldRender(true);
-      setProviders(e.detail);
+      setProviders(e.detail.providers);
     });
   }
 
