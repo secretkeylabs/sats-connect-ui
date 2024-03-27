@@ -7,6 +7,7 @@ import {
 
 import {
   mockAllInstalled,
+  mockManySomeInstalled,
   mockNoneInstalled,
   mockSomeUninstalled,
 } from "./mocks";
@@ -30,6 +31,15 @@ function handleButtonClickSomeInstalled() {
 
 function handleButtonClickAllInstalled() {
   selectWalletProvider(mockAllInstalled()).then((wallet) => {
+    console.log("Selected wallet:", wallet);
+    walletOpen(wallet);
+    // Simulate user interacting with the wallet.
+    setTimeout(close, 5000);
+  });
+}
+
+function handleManyWallets() {
+  selectWalletProvider(mockManySomeInstalled()).then((wallet) => {
     console.log("Selected wallet:", wallet);
     walletOpen(wallet);
     // Simulate user interacting with the wallet.
@@ -69,6 +79,9 @@ export function ExampleDApp() {
           onClick={handleButtonClickAllInstalled}
         >
           Open wallet selector (all installed)
+        </button>
+        <button style={{ display: "block" }} onClick={handleManyWallets}>
+          Open wallet selector (many wallets)
         </button>
       </div>
     </div>

@@ -42,43 +42,49 @@ export function WalletProviderOption(props: Props) {
 
   return (
     <div
-      role={role()}
-      tabIndex={0}
       style={{
-        display: "flex",
-        "flex-direction": "column",
-        "row-gap": "12px",
-        "align-items": "center",
-        cursor: "pointer",
-        outline: "none",
-        "padding-top": "10px",
+        "aspect-ratio": "1 / 1",
       }}
-      onClick={handleWalletSelected}
-      onKeyDown={handleKeyDown}
-      onMouseEnter={() => setIsMouseOver(true)}
-      onMouseLeave={() => setIsMouseOver(false)}
-      onFocus={() => setIsFocused(true)}
-      onBlur={() => setIsFocused(false)}
     >
-      <img
-        style={{
-          width: "56px",
-          height: "56px",
-          "object-fit": "cover",
-          "border-radius": "12px",
-          outline: isOutlined() ? `6px solid ${focusOutlineColor}` : "none",
-        }}
-        src={props.icon}
-        alt={props.name}
-      />
       <div
+        role={role()}
+        tabIndex={0}
         style={{
-          color: isOutlined() ? focusTextColor : undefined,
-          "font-size": "14px",
-          "text-align": "center",
+          display: "flex",
+          "flex-direction": "column",
+          "row-gap": "12px",
+          "align-items": "center",
+          cursor: "pointer",
+          outline: "none",
+          "padding-top": "10px",
         }}
+        onClick={handleWalletSelected}
+        onKeyDown={handleKeyDown}
+        onMouseEnter={() => setIsMouseOver(true)}
+        onMouseLeave={() => setIsMouseOver(false)}
+        onFocus={() => setIsFocused(true)}
+        onBlur={() => setIsFocused(false)}
       >
-        {props.name}
+        <img
+          style={{
+            width: "56px",
+            height: "56px",
+            "object-fit": "cover",
+            "border-radius": "12px",
+            outline: isOutlined() ? `6px solid ${focusOutlineColor}` : "none",
+          }}
+          src={props.icon}
+          alt={props.name}
+        />
+        <div
+          style={{
+            color: isOutlined() ? focusTextColor : undefined,
+            "font-size": "14px",
+            "text-align": "center",
+          }}
+        >
+          {props.name}
+        </div>
       </div>
     </div>
   );

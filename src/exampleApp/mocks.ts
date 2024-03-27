@@ -4,7 +4,7 @@ export function mockNoneInstalled(): Config {
   return {
     providers: [
       {
-        name: "Wallet (uninstalled)",
+        name: "Wallet 1",
         id: "wallet-1",
         icon: "https://picsum.photos/101",
         isInstalled: false,
@@ -13,7 +13,7 @@ export function mockNoneInstalled(): Config {
         iOSAppStoreUrl: "https://example.com/?ios-wallet-1",
       },
       {
-        name: "Wallet (installed)",
+        name: "Wallet 2",
         id: "wallet-2",
         icon: "https://picsum.photos/102",
         isInstalled: false,
@@ -29,7 +29,7 @@ export function mockSomeUninstalled(): Config {
   return {
     providers: [
       {
-        name: "Wallet (installed)",
+        name: "Wallet 1",
         id: "wallet-1",
         icon: "https://picsum.photos/101",
         isInstalled: true,
@@ -38,7 +38,7 @@ export function mockSomeUninstalled(): Config {
         iOSAppStoreUrl: "https://example.com/?ios-wallet-1",
       },
       {
-        name: "Wallet (uninstalled)",
+        name: "Wallet 2",
         id: "wallet-2",
         icon: "https://picsum.photos/102",
         isInstalled: false,
@@ -54,7 +54,7 @@ export function mockAllInstalled(): Config {
   return {
     providers: [
       {
-        name: "Wallet (installed)",
+        name: "Wallet 1",
         id: "wallet-1",
         icon: "https://picsum.photos/101",
         isInstalled: true,
@@ -63,7 +63,7 @@ export function mockAllInstalled(): Config {
         iOSAppStoreUrl: "https://example.com/?ios-wallet-1",
       },
       {
-        name: "Wallet (installed)",
+        name: "Wallet 2",
         id: "wallet-2",
         icon: "https://picsum.photos/102",
         isInstalled: true,
@@ -72,5 +72,23 @@ export function mockAllInstalled(): Config {
         iOSAppStoreUrl: "https://example.com/?ios-wallet-2",
       },
     ],
+  };
+}
+
+export function mockManySomeInstalled() {
+  return {
+    // 25 wallets
+    providers: Array.from({ length: 25 }, (_, i) => {
+      const id = `wallet-${i + 1}`;
+      return {
+        name: `Wallet ${i + 1}`,
+        id,
+        icon: `https://picsum.photos/${i + 101}`,
+        isInstalled: i % 2 === 0,
+        chromeWebStoreUrl: `https://example.com/?chrome-store-${id}`,
+        googlePlayStoreUrl: `https://example.com/?google-play-${id}`,
+        iOSAppStoreUrl: `https://example.com/?ios-${id}`,
+      };
+    }),
   };
 }
