@@ -62,4 +62,4 @@ For convenience, the following methods are available to interact with the select
 
 ## A note on Typescript
 
-The event names used by the selector are defined in [`selector-events.ts`](../src/lib/selector-events.ts), which is necessary to satisfy the compiler.
+The event names used by the selector are defined in [`constants.ts`](../src/lib/constants.ts), which is necessary to satisfy the compiler.
