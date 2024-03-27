@@ -195,11 +195,11 @@ export function WalletProviderSelector() {
           />
           <Dialog.Positioner
             style={{
-              position: "absolute",
-              inset: "0",
               display: "flex",
-              "align-items": "center",
+              "flex-direction": "column",
               "justify-content": "center",
+              "align-items": "center",
+              height: "100%",
             }}
           >
             <Dialog.Content
@@ -209,13 +209,8 @@ export function WalletProviderSelector() {
                 "max-width": hasAnyWalletInstalled() ? "780px" : "424px",
                 "max-height": "calc(100% - 128px)",
                 "background-color": "#FFFFFF",
-                display: shouldRender() ? "grid" : "none",
-                "grid-template-columns": hasAnyWalletInstalled()
-                  ? "5fr auto 4fr"
-                  : "1fr",
-                "grid-template-areas": hasAnyWalletInstalled()
-                  ? `"providers divider sidePanel"`
-                  : `"providers"`,
+                display: shouldRender() ? "block" : "none",
+
                 "box-shadow": "0px 8px 64px 0px rgba(0, 0, 0, 0.25)",
                 animation: isVisible()
                   ? "wallet-selector-fade-in 0.4s cubic-bezier(.05, .7, .1, 1) forwards"
@@ -225,122 +220,151 @@ export function WalletProviderSelector() {
             >
               <div
                 style={{
-                  "grid-area": "providers",
+                  height: "100%",
+                  display: "grid",
+                  "grid-template-columns": hasAnyWalletInstalled()
+                    ? "5fr auto 4fr"
+                    : "1fr",
+                  "grid-template-areas": hasAnyWalletInstalled()
+                    ? `"providers divider sidePanel"`
+                    : `"providers"`,
                 }}
               >
-                <Dialog.Title
-                  style={{
-                    "font-weight": "700",
-                    "font-size": "18px",
-                    margin: "0",
-                    "padding-top": "24px",
-                    "padding-left": "24px",
-                    "padding-right": "24px",
-                    "padding-bottom": "16px",
-                  }}
-                >
-                  {hasAnyWalletInstalled()
-                    ? "Choose wallet to connect"
-                    : "Don't have a wallet?"}
-                </Dialog.Title>
-                <Dialog.Description
-                  style={{
-                    "font-weight": "400",
-                    "font-size": "14px",
-                    "padding-left": "24px",
-                    "padding-right": "24px",
-                    "padding-bottom": "30px",
-                  }}
-                >
-                  {hasAnyWalletInstalled()
-                    ? "Start by selecting with one of the wallets below and confirming the connection."
-                    : "Start by installing one of the wallets below."}
-                </Dialog.Description>
                 <div
+                  data-desc="column 1 (wallets)"
                   style={{
-                    display: "flex",
-                    "flex-direction": "column",
-                    "flex-grow": "1",
-                    "min-height": "0",
-                    "padding-left": "8px",
-                    "padding-right": "8px",
-                    "padding-bottom": "24px",
+                    height: "100%",
+                    overflow: "auto",
                   }}
                 >
                   <div
                     style={{
-                      "flex-grow": "1",
-                      "min-height": "0",
-                      "overflow-y": "auto",
-                      "padding-left": "16px",
-                      "padding-right": "16px",
-                      "padding-bottom": "40px",
-                      display: "grid",
-                      "grid-template-columns": "repeat(3, 1fr)",
-                      "column-gap": "8px",
-                      "row-gap": "6px",
+                      "max-height": "100%",
+                      display: "flex",
+                      "flex-direction": "column",
                     }}
                   >
-                    <For each={providers()}>
-                      {(provider) => (
-                        <WalletProviderOption
-                          {...provider}
-                          onProviderSelected={handleWalletSelected}
-                        />
-                      )}
-                    </For>
+                    <Dialog.Title
+                      style={{
+                        "font-weight": "700",
+                        "font-size": "18px",
+                        margin: "0",
+                        "padding-top": "24px",
+                        "padding-left": "24px",
+                        "padding-right": "24px",
+                        "padding-bottom": "16px",
+                      }}
+                    >
+                      {hasAnyWalletInstalled()
+                        ? "Choose wallet to connect"
+                        : "Don't have a wallet?"}
+                    </Dialog.Title>
+                    <Dialog.Description
+                      style={{
+                        "font-weight": "400",
+                        "font-size": "14px",
+                        "padding-left": "24px",
+                        "padding-right": "24px",
+                        "padding-bottom": "30px",
+                      }}
+                    >
+                      {hasAnyWalletInstalled()
+                        ? "Start by selecting with one of the wallets below and confirming the connection."
+                        : "Start by installing one of the wallets below."}
+                    </Dialog.Description>
+                    <div
+                      style={{
+                        display: "flex",
+                        "flex-direction": "column",
+                        "min-height": "0",
+                        "flex-grow": "1",
+                        overflow: "hidden",
+                        "padding-bottom": "24px",
+                        "padding-left": "8px",
+                        "padding-right": "8px",
+                      }}
+                      data-desc="wallet grid container for padding"
+                    >
+                      <div
+                        style={{
+                          display: "grid",
+                          "grid-template-columns": "1fr 1fr 1fr",
+                          "min-height": "0",
+                          "flex-grow": "1",
+                          "overflow-y": "auto",
+                          "padding-bottom": "40px",
+                          "padding-left": "8px",
+                          "padding-right": "8px",
+                        }}
+                        data-desc="wallet grid container"
+                      >
+                        <For each={providers()}>
+                          {(provider) => (
+                            <WalletProviderOption
+                              {...provider}
+                              onProviderSelected={handleWalletSelected}
+                            />
+                          )}
+                        </For>
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              <Show when={sidePanelDisplay().type !== "none"}>
-                <div
-                  style={{
-                    "grid-area": "divider",
-                  }}
-                >
-                  <Divider />
-                </div>
-              </Show>
+                <Show when={sidePanelDisplay().type !== "none"}>
+                  <div
+                    data-desc="column 2 (divider)"
+                    style={{
+                      "grid-area": "divider",
+                    }}
+                  >
+                    <Divider />
+                  </div>
+                </Show>
 
-              <div
-                style={{
-                  "grid-area": "sidePanel",
-                }}
-              >
-                <SidePanelContainer>
-                  <SidePanelContentContainer>
-                    <Switch fallback={null}>
-                      <Match
-                        when={
-                          sidePanelDisplay().type === "install-wallet-prompt"
-                        }
-                      >
-                        <SidePanelInstallWalletPrompt
-                          provider={
-                            (
-                              sidePanelDisplay() as TSidePanelInstallWalletPrompt
-                            ).provider
-                          }
-                        />
-                      </Match>
-                      <Match when={sidePanelDisplay().type === "explainer"}>
-                        <SidePanelExplainer />
-                      </Match>
-                      <Match
-                        when={sidePanelDisplay().type === "opening-wallet"}
-                      >
-                        <SidePanelOpeningWallet
-                          provider={
-                            (
-                              sidePanelDisplay() as TSidePanelInstallWalletPrompt
-                            ).provider
-                          }
-                        />
-                      </Match>
-                    </Switch>
-                  </SidePanelContentContainer>
-                </SidePanelContainer>
+                <Show when={sidePanelDisplay().type !== "none"}>
+                  <div
+                    data-desc="column 3 (side panel)"
+                    style={{
+                      "grid-area": "sidePanel",
+                    }}
+                  >
+                    <SidePanelContainer>
+                      <SidePanelContentContainer>
+                        <Switch fallback={null}>
+                          <Match
+                            when={
+                              sidePanelDisplay().type ===
+                              "install-wallet-prompt"
+                            }
+                          >
+                            <SidePanelInstallWalletPrompt
+                              provider={
+                                (
+                                  sidePanelDisplay() as TSidePanelInstallWalletPrompt
+                                ).provider
+                              }
+                            />
+                          </Match>
+                          <Match when={sidePanelDisplay().type === "explainer"}>
+                            <SidePanelExplainer />
+                          </Match>
+                          <Match
+                            when={sidePanelDisplay().type === "opening-wallet"}
+                          >
+                            <SidePanelOpeningWallet
+                              provider={
+                                (
+                                  sidePanelDisplay() as TSidePanelInstallWalletPrompt
+                                ).provider
+                              }
+                            />
+                          </Match>
+                        </Switch>
+                      </SidePanelContentContainer>
+                    </SidePanelContainer>
+                  </div>
+                </Show>
               </div>
               <CloseButton onClose={handleCancelClick} />
             </Dialog.Content>

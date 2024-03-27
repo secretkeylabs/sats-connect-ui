@@ -74,3 +74,21 @@ export function mockAllInstalled(): Config {
     ],
   };
 }
+
+export function mockManySomeInstalled() {
+  return {
+    // 25 wallets
+    providers: Array.from({ length: 25 }, (_, i) => {
+      const id = `wallet-${i + 1}`;
+      return {
+        name: `Wallet ${i + 1}`,
+        id,
+        icon: `https://picsum.photos/${i + 101}`,
+        isInstalled: i % 2 === 0,
+        chromeWebStoreUrl: `https://example.com/?chrome-store-${id}`,
+        googlePlayStoreUrl: `https://example.com/?google-play-${id}`,
+        iOSAppStoreUrl: `https://example.com/?ios-${id}`,
+      };
+    }),
+  };
+}
