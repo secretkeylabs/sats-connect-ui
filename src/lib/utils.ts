@@ -1,4 +1,4 @@
-import { SupportedWallet } from "@sats-connect/core";
+import { Config } from "@sats-connect/core";
 import { customElement } from "solid-element";
 
 import { WalletProviderSelector } from "./WalletProviderSelector";
@@ -10,6 +10,8 @@ import {
   walletClose as walletCloseEventName,
   walletOpen as walletOpenEventName,
 } from "./constants";
+
+export type { Config } from "@sats-connect/core";
 
 export const elementId = "sats-connect-wallet-provider-selector";
 export const elementName = elementId;
@@ -43,10 +45,6 @@ export function cleanup() {
 
 export interface InstallPrompt {
   url: string;
-}
-
-export interface Config {
-  providers: SupportedWallet[];
 }
 
 export function selectWalletProvider(config: Config): Promise<string> {
