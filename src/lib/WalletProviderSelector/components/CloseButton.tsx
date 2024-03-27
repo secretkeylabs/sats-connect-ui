@@ -24,3 +24,47 @@ export function XCircle(props: JSX.IntrinsicElements["svg"]) {
     </svg>
   );
 }
+
+interface Props {
+  onClose: () => void;
+}
+
+export function CloseButton(props: Props) {
+  function handleKeyDown(e: KeyboardEvent) {
+    if (e.key === "Enter" || e.key === " ") {
+      props.onClose();
+    }
+  }
+  return (
+    <>
+      <style>
+        {`
+          .close-selector-button:focus-visible {
+            outline: 2px solid #181818;
+            outline-offset: -0.25px;
+          }
+        `}
+      </style>
+      <div
+        role="button"
+        tabIndex={0}
+        class="close-selector-button"
+        style={{
+          position: "absolute",
+          top: "16px",
+          right: "16px",
+          background: "none",
+          border: "none",
+          cursor: "pointer",
+          padding: "0",
+          margin: "0",
+          "border-radius": "50%",
+        }}
+        onClick={props.onClose}
+        onKeyDown={handleKeyDown}
+      >
+        <XCircle />
+      </div>
+    </>
+  );
+}

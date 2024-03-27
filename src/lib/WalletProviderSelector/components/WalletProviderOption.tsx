@@ -7,11 +7,6 @@ interface Props extends SupportedWallet {
 
 export function WalletProviderOption(props: Props) {
   function handleWalletSelected() {
-    if (!props.isInstalled) {
-      window.open(props.googlePlayStoreUrl, "_blank");
-      return;
-    }
-
     props.onProviderSelected(props.id);
   }
 

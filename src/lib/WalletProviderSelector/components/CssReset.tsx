@@ -16,6 +16,7 @@ Use a better box model (opinionated).
 ::before,
 ::after {
 	box-sizing: border-box;
+	margin: 0; /* Remove all margins from everywhere. */
 }
 
 :host {

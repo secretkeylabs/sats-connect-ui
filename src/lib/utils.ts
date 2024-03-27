@@ -2,7 +2,14 @@ import { SupportedWallet } from "@sats-connect/core";
 import { customElement } from "solid-element";
 
 import { WalletProviderSelector } from "./WalletProviderSelector";
-import { cancel, open, select } from "./constants";
+import {
+  cancel,
+  close as closeEventName,
+  open,
+  select,
+  walletClose as walletCloseEventName,
+  walletOpen as walletOpenEventName,
+} from "./constants";
 
 export const elementId = "sats-connect-wallet-provider-selector";
 export const elementName = elementId;
@@ -75,4 +82,21 @@ export function selectWalletProvider(config: Config): Promise<string> {
     });
     window.dispatchEvent(event);
   });
+}
+
+export function walletOpen(wallet: string) {
+  const event = new CustomEvent(walletOpenEventName, {
+    detail: wallet,
+  });
+  window.dispatchEvent(event);
+}
+
+export function walletClose() {
+  const event = new CustomEvent(walletCloseEventName);
+  window.dispatchEvent(event);
+}
+
+export function close() {
+  const event = new CustomEvent(closeEventName);
+  window.dispatchEvent(event);
 }

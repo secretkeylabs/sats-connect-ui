@@ -16,7 +16,7 @@ Styles for the selector are in the form of inline styles or `<style>` tags in th
 
 Styling solutions usually have a tight integration with the build process and emit CSS assets or add code that inserts `<style>` tags into the `<header>`. In general, these approaches don't work with custom elements which are defined at run time: there's nothing to inject the styles into during the build process. Dedicated frameworks like Polymer and Stencil exist to overcome this issue, although they currently have fewer Github stars and seem to use more component complex abstractions.
 
-The selector uses a [CSS reset](https://github.com/sindresorhus/modern-normalize/blob/main/modern-normalize.css) that has been [adapted for custom elements](https://www.colorglare.com/css-resets-and-global-styles-in-web-components-c71fcea86dbd).
+The selector uses a [CSS reset](https://github.com/sindresorhus/modern-normalize/blob/main/modern-normalize.css) that has been [adapted for custom elements](https://www.colorglare.com/css-resets-and-global-styles-in-web-components-c71fcea86dbd). For convenience, all margins have also been removed using the reset.
 
 Styles may break when using Portals. By default, they render elements directly into the body and outside of the influence of the styles defined within the custom element.
 
