@@ -60,6 +60,7 @@ export function WalletProviderSelector() {
 
     if (!hasAnyWalletInstalled()) {
       openChromeWebStore(provider);
+      return;
     }
 
     if (!provider.isInstalled) {
