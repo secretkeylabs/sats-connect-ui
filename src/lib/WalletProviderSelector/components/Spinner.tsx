@@ -21,7 +21,7 @@ const SvgComponent = () => (
         type="rotate"
         from="0 10 10"
         to="360 10 10"
-        dur="0.5s"
+        dur="0.75s"
         repeatCount="indefinite"
       />
     </circle>

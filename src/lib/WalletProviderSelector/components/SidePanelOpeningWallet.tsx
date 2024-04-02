@@ -1,5 +1,7 @@
 import { SupportedWallet } from "@sats-connect/core";
 
+import { bodyTextStyles, titleTextStyles } from "../../styles";
+
 import { Spinner } from "./Spinner";
 
 interface Props {
@@ -28,12 +30,15 @@ export function SidePanelOpeningWallet(props: Props) {
       />
       <h1
         style={{
+          ...titleTextStyles,
           "text-align": "center",
         }}
       >
         Opening {props.provider.name}...
       </h1>
-      <p>Confirm the operation in {props.provider.name}</p>
+      <p style={bodyTextStyles}>
+        Confirm the operation in {props.provider.name}
+      </p>
       <Spinner />
     </div>
   );

@@ -1,3 +1,5 @@
+import { bodyTextStyles, titleTextStyles } from "../../styles";
+
 export function SidePanelExplainer() {
   return (
     <div
@@ -17,20 +19,14 @@ export function SidePanelExplainer() {
       >
         🤔
       </div>
-      <div
-        style={{
-          "font-size": "18px",
-          "font-weight": "700",
-          "line-height": "140%",
-        }}
-      >
-        What is a wallet?
-      </div>
-      <p>
+      <div style={titleTextStyles}>What is a wallet?</div>
+      <p style={bodyTextStyles}>
         Wallets let you send, receive, store and display digital assets like
         Bitcoin, Stacks, Ordinals & NFTs.
       </p>
-      <p>Explore Bitcoin apps by connecting your wallet.</p>
+      <p style={bodyTextStyles}>
+        Explore Bitcoin apps by connecting your wallet.
+      </p>
     </div>
   );
 }
