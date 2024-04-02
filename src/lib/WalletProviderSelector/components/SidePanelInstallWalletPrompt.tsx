@@ -1,5 +1,10 @@
 import { SupportedWallet } from "@sats-connect/core";
 
+import {
+  bodyTextStyles,
+  buttonTextStyles,
+  titleTextStyles,
+} from "../../styles";
 import { openChromeWebStore } from "../utils";
 
 interface Props {
@@ -45,12 +50,13 @@ export function SidePanelInstallWalletPrompt(props: Props) {
         />
         <h1
           style={{
+            ...titleTextStyles,
             "text-align": "center",
           }}
         >
           Don't have {props.provider.name}?
         </h1>
-        <p>Download it on the Chrome web store.</p>
+        <p style={bodyTextStyles}>Download it on the Chrome web store.</p>
         <div
           class="install-prompt-button"
           role="button"
@@ -58,11 +64,11 @@ export function SidePanelInstallWalletPrompt(props: Props) {
           onClick={handleClick}
           onKeyDown={handleKeyDown}
           style={{
+            ...buttonTextStyles,
             cursor: "pointer",
             "border-radius": "12px",
             background: "#181818",
             color: "white",
-            "font-size": "14px",
             padding: "12px 16px",
           }}
         >

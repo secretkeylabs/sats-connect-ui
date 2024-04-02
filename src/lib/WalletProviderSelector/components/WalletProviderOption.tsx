@@ -1,6 +1,8 @@
 import { SupportedWallet } from "@sats-connect/core";
 import { createMemo, createSignal } from "solid-js";
 
+import { bodyTextStyles } from "../../styles";
+
 interface Props extends SupportedWallet {
   onProviderSelected: (walletId: string) => void;
 }
@@ -78,8 +80,8 @@ export function WalletProviderOption(props: Props) {
         />
         <div
           style={{
+            ...bodyTextStyles,
             color: isOutlined() ? focusTextColor : undefined,
-            "font-size": "14px",
             "text-align": "center",
           }}
         >

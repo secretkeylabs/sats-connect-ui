@@ -19,6 +19,7 @@ import {
   walletClose,
   walletOpen,
 } from "../constants";
+import { bodyTextStyles, titleTextStyles } from "../styles";
 import { Config } from "../utils";
 
 import { CloseButton } from "./components/CloseButton";
@@ -206,8 +207,8 @@ export function WalletProviderSelector() {
               style={{
                 position: "relative", // For the close button
                 "border-radius": "16px",
-                "max-width": hasAnyWalletInstalled() ? "780px" : "424px",
-                "max-height": "calc(100% - 128px)",
+                width: hasAnyWalletInstalled() ? "780px" : "424px",
+                height: "460px",
                 "background-color": "#FFFFFF",
                 display: shouldRender() ? "block" : "none",
 
@@ -246,8 +247,7 @@ export function WalletProviderSelector() {
                   >
                     <Dialog.Title
                       style={{
-                        "font-weight": "700",
-                        "font-size": "18px",
+                        ...titleTextStyles,
                         margin: "0",
                         "padding-top": "24px",
                         "padding-left": "24px",
@@ -261,8 +261,7 @@ export function WalletProviderSelector() {
                     </Dialog.Title>
                     <Dialog.Description
                       style={{
-                        "font-weight": "400",
-                        "font-size": "14px",
+                        ...bodyTextStyles,
                         "padding-left": "24px",
                         "padding-right": "24px",
                         "padding-bottom": "30px",
