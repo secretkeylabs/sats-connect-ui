@@ -12,7 +12,7 @@
     "build-app": "tsc && vite build --config vite.config.app.ts"
   },
   "dependencies": {
-    "@sats-connect/core": "pr-1"
+    "@sats-connect/core": "0.0.3"
   },
   "devDependencies": {
     "@ark-ui/solid": "2.2.0",
