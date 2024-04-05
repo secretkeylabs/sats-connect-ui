@@ -397,13 +397,7 @@ export function WalletProviderSelector() {
                     </Show>
 
                     <Show when={sidePanelDisplay().type !== "none"}>
-                      <div
-                        class="right-panel"
-                        data-desc="right panel"
-                        // style={{
-                        //   "grid-area": "sidePanel",
-                        // }}
-                      >
+                      <div class="right-panel" data-desc="right panel">
                         <SidePanelContainer>
                           <SidePanelContentContainer>
                             <Switch fallback={null}>
