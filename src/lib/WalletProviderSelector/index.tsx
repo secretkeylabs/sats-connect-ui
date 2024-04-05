@@ -199,7 +199,6 @@ export function WalletProviderSelector() {
             }
 
             .card {
-              border: 1px solid red;
               min-height: 340px;
               max-height: calc(100vh - 8rem);
               width: 100%;
@@ -229,11 +228,9 @@ export function WalletProviderSelector() {
 
               display: grid;
               height: 100%;
-              background: rgba(0, 0, 255, 0.3);
             }
 
             .left-panel {
-              border: 3px solid green;
               height: 100%;
               overflow: hidden;
               display: flex;
@@ -241,8 +238,6 @@ export function WalletProviderSelector() {
             }
 
             .wallets-grid-container {
-              border: 3px solid blue;
-              
               overflow: auto;
               flex-grow: 1;
             }
@@ -281,7 +276,6 @@ export function WalletProviderSelector() {
 
               .right-panel {
                 display: flex;
-                border: 3px solid yellow;
                 flex-direction: column;
                 justify-content: center;
                 align-items: center;
@@ -312,7 +306,6 @@ export function WalletProviderSelector() {
               display: "flex",
               "justify-content": "center",
               "align-items": "center",
-              border: "1px solid black",
               height: "100%",
             }}
           >
