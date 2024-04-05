@@ -25,13 +25,13 @@ import { Config } from "../utils";
 import { CloseButton } from "./components/CloseButton";
 import { CssReset } from "./components/CssReset";
 import { Divider } from "./components/Divider";
-import { SidePanelContainer } from "./components/SidePanelContainer";
-import { SidePanelContentContainer } from "./components/SidePanelContentContainer";
-import { SidePanelExplainer } from "./components/SidePanelExplainer";
-import { SidePanelInstallWalletPrompt } from "./components/SidePanelInstallWalletPrompt";
-import { SidePanelOpeningWallet } from "./components/SidePanelOpeningWallet";
+import { RightPanelContainer } from "./components/RightPanelContainer";
+import { RightPanelContentContainer } from "./components/RightPanelContentContainer";
+import { RightPanelExplainer } from "./components/RightPanelExplainer";
+import { RightPanelInstallWalletPrompt } from "./components/RightPanelInstallWalletPrompt";
+import { RightPanelOpeningWallet } from "./components/RightPanelOpeningWallet";
 import { WalletProviderOption } from "./components/WalletProviderOption";
-import { TSidePanelDisplay, TSidePanelInstallWalletPrompt } from "./types";
+import { TRightPanelDisplay, TRightPanelInstallWalletPrompt } from "./types";
 import { openChromeWebStore } from "./utils";
 
 const cardRadius = "24px";
@@ -40,8 +40,8 @@ export function WalletProviderSelector() {
   const [isVisible, setIsVisible] = createSignal(false);
   const [shouldRender, setShouldRender] = createSignal(false);
   const [providers, setProviders] = createSignal<Array<SupportedWallet>>([]);
-  const [sidePanelDisplay, setSidePanelDisplay] =
-    createSignal<TSidePanelDisplay>({ type: "none" });
+  const [rightPanelDisplay, setRightPanelDisplay] =
+    createSignal<TRightPanelDisplay>({ type: "none" });
 
   const hasAnyWalletInstalled = () => providers().some((p) => p.isInstalled);
 
@@ -67,7 +67,7 @@ export function WalletProviderSelector() {
     }
 
     if (!provider.isInstalled) {
-      setSidePanelDisplay({ type: "install-wallet-prompt", provider });
+      setRightPanelDisplay({ type: "install-wallet-prompt", provider });
       return;
     }
 
@@ -88,9 +88,9 @@ export function WalletProviderSelector() {
       setProviders(providers);
 
       if (providers.some((p) => p.isInstalled)) {
-        setSidePanelDisplay({ type: "explainer" });
+        setRightPanelDisplay({ type: "explainer" });
       } else {
-        setSidePanelDisplay({ type: "none" });
+        setRightPanelDisplay({ type: "none" });
       }
     });
   }
@@ -107,14 +107,14 @@ export function WalletProviderSelector() {
 
   function handleWalletOpen(e: CustomEvent<string>) {
     const providerId = e.detail;
-    setSidePanelDisplay({
+    setRightPanelDisplay({
       type: "opening-wallet",
       provider: providers().find((p) => p.id === providerId) as SupportedWallet,
     });
   }
 
   function handleWalletClose() {
-    setSidePanelDisplay({ type: "explainer" });
+    setRightPanelDisplay({ type: "explainer" });
   }
 
   onMount(() => {
@@ -149,6 +149,7 @@ export function WalletProviderSelector() {
   });
 
   const [root, setRoot] = createSignal<HTMLDivElement>();
+  const [rightPanel, setRightPanel] = createSignal<HTMLDivElement>();
   return (
     <div
       ref={setRoot}
@@ -271,7 +272,7 @@ export function WalletProviderSelector() {
                 };
                 grid-template-areas: ${
                   hasAnyWalletInstalled()
-                    ? `"providers divider sidePanel"`
+                    ? `"providers divider rightPanel"`
                     : `"providers"`
                 };
               }
@@ -385,7 +386,7 @@ export function WalletProviderSelector() {
                       </div>
                     </div>
 
-                    <Show when={sidePanelDisplay().type !== "none"}>
+                    <Show when={rightPanelDisplay().type !== "none"}>
                       <div
                         data-desc="column 2 (divider)"
                         style={{
@@ -396,46 +397,51 @@ export function WalletProviderSelector() {
                       </div>
                     </Show>
 
-                    <Show when={sidePanelDisplay().type !== "none"}>
-                      <div class="right-panel" data-desc="right panel">
-                        <SidePanelContainer>
-                          <SidePanelContentContainer>
+                    <Show when={rightPanelDisplay().type !== "none"}>
+                      <div
+                        ref={setRightPanel}
+                        id="sats-connect-ui-right-panel"
+                        class="right-panel"
+                        data-desc="right panel"
+                      >
+                        <RightPanelContainer>
+                          <RightPanelContentContainer>
                             <Switch fallback={null}>
                               <Match
                                 when={
-                                  sidePanelDisplay().type ===
+                                  rightPanelDisplay().type ===
                                   "install-wallet-prompt"
                                 }
                               >
-                                <SidePanelInstallWalletPrompt
+                                <RightPanelInstallWalletPrompt
                                   provider={
                                     (
-                                      sidePanelDisplay() as TSidePanelInstallWalletPrompt
+                                      rightPanelDisplay() as TRightPanelInstallWalletPrompt
                                     ).provider
                                   }
                                 />
                               </Match>
                               <Match
-                                when={sidePanelDisplay().type === "explainer"}
+                                when={rightPanelDisplay().type === "explainer"}
                               >
-                                <SidePanelExplainer />
+                                <RightPanelExplainer />
                               </Match>
                               <Match
                                 when={
-                                  sidePanelDisplay().type === "opening-wallet"
+                                  rightPanelDisplay().type === "opening-wallet"
                                 }
                               >
-                                <SidePanelOpeningWallet
+                                <RightPanelOpeningWallet
                                   provider={
                                     (
-                                      sidePanelDisplay() as TSidePanelInstallWalletPrompt
+                                      rightPanelDisplay() as TRightPanelInstallWalletPrompt
                                     ).provider
                                   }
                                 />
                               </Match>
                             </Switch>
-                          </SidePanelContentContainer>
-                        </SidePanelContainer>
+                          </RightPanelContentContainer>
+                        </RightPanelContainer>
                       </div>
                     </Show>
                   </div>

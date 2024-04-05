@@ -11,7 +11,7 @@ interface Props {
   provider: SupportedWallet;
 }
 
-export function SidePanelInstallWalletPrompt(props: Props) {
+export function RightPanelInstallWalletPrompt(props: Props) {
   function handleKeyDown(event: KeyboardEvent) {
     if (event.key === "Enter" || event.key === " ") {
       openChromeWebStore(props.provider);

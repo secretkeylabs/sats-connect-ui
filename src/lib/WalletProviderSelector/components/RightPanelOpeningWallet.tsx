@@ -8,7 +8,7 @@ interface Props {
   provider: SupportedWallet;
 }
 
-export function SidePanelOpeningWallet(props: Props) {
+export function RightPanelOpeningWallet(props: Props) {
   return (
     <div
       style={{
