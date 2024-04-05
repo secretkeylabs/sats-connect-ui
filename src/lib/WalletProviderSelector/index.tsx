@@ -260,6 +260,7 @@ export function WalletProviderSelector() {
   
               .card {
                 max-width: calc(100vw - 2rem);
+                max-height: 460px;
                 ${hasAnyWalletInstalled() ? "" : "width: 360px;"}
                 border-bottom-left-radius: ${cardRadius};
                 border-bottom-right-radius: ${cardRadius};
