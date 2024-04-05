@@ -348,30 +348,10 @@ export function WalletProviderSelector() {
                       </Dialog.Description>
                       <div
                         class="wallets-grid-container"
-                        // style={{
-                        //   display: "flex",
-                        //   "flex-direction": "column",
-                        //   "min-height": "0",
-                        //   "flex-grow": "1",
-                        //   overflow: "hidden",
-                        //   "padding-bottom": "24px",
-                        //   "padding-left": "8px",
-                        //   "padding-right": "8px",
-                        // }}
                         data-desc="wallet grid container for padding"
                       >
                         <div
                           class="wallets-grid"
-                          // style={{
-                          //   display: "grid",
-                          //   "grid-template-columns": "1fr 1fr 1fr",
-                          //   "min-height": "0",
-                          //   "flex-grow": "1",
-                          //   "overflow-y": "auto",
-                          //   "padding-bottom": "40px",
-                          //   "padding-left": "8px",
-                          //   "padding-right": "8px",
-                          // }}
                           data-desc="wallet grid container"
                         >
                           <For each={providers()}>
