@@ -5,7 +5,7 @@ import {
   buttonTextStyles,
   titleTextStyles,
 } from "../../styles";
-import { openChromeWebStore } from "../utils";
+import { openAppStore } from "../utils";
 
 interface Props {
   provider: SupportedWallet;
@@ -14,11 +14,11 @@ interface Props {
 export function RightPanelInstallWalletPrompt(props: Props) {
   function handleKeyDown(event: KeyboardEvent) {
     if (event.key === "Enter" || event.key === " ") {
-      openChromeWebStore(props.provider);
+      openAppStore(props.provider);
     }
   }
   function handleClick() {
-    openChromeWebStore(props.provider);
+    openAppStore(props.provider);
   }
   return (
     <>

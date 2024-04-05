@@ -32,11 +32,26 @@ import { RightPanelInstallWalletPrompt } from "./components/RightPanelInstallWal
 import { RightPanelOpeningWallet } from "./components/RightPanelOpeningWallet";
 import { WalletProviderOption } from "./components/WalletProviderOption";
 import { TRightPanelDisplay, TRightPanelInstallWalletPrompt } from "./types";
-import { openChromeWebStore } from "./utils";
+import { openAppStore } from "./utils";
 
 const cardRadius = "24px";
 
 export function WalletProviderSelector() {
+  // Note: The user flow when clicking a wallet provider varies depending on
+  // whether the panel is displayed.
+  //
+  // - When the panel is not displayed, clicking an uninstalled wallet provider
+  //   will automatically open the install URL.
+  // - When the panel is displayed, clicking an uninstalled wallet provider will
+  //   display the install prompt in the right panel.
+  const [rightPanel, setRightPanel] = createSignal<HTMLDivElement>();
+  function isDisplayingRightPanel() {
+    const panel = rightPanel();
+    if (!panel) return false;
+
+    return getComputedStyle(panel).display !== "none";
+  }
+
   const [isVisible, setIsVisible] = createSignal(false);
   const [shouldRender, setShouldRender] = createSignal(false);
   const [providers, setProviders] = createSignal<Array<SupportedWallet>>([]);
@@ -61,13 +76,12 @@ export function WalletProviderSelector() {
       (p) => p.id === walletId,
     ) as SupportedWallet;
 
-    if (!hasAnyWalletInstalled()) {
-      openChromeWebStore(provider);
-      return;
-    }
-
     if (!provider.isInstalled) {
-      setRightPanelDisplay({ type: "install-wallet-prompt", provider });
+      if (!isDisplayingRightPanel()) {
+        openAppStore(provider);
+      } else {
+        setRightPanelDisplay({ type: "install-wallet-prompt", provider });
+      }
       return;
     }
 
@@ -149,7 +163,7 @@ export function WalletProviderSelector() {
   });
 
   const [root, setRoot] = createSignal<HTMLDivElement>();
-  const [rightPanel, setRightPanel] = createSignal<HTMLDivElement>();
+
   return (
     <div
       ref={setRoot}
