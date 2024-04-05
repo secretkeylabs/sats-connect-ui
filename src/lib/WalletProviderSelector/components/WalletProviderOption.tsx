@@ -46,6 +46,7 @@ export function WalletProviderOption(props: Props) {
     <div
       style={{
         "aspect-ratio": "1 / 1",
+        overflow: "hidden",
       }}
     >
       <div

@@ -245,7 +245,7 @@ export function WalletProviderSelector() {
             .wallets-grid {
 
               display: grid;
-              grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+              grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
               align-content: start;
             }
 
