@@ -102,10 +102,10 @@ export function WalletProviderSelector() {
       setIsVisible(true);
       setShouldRender(true);
 
-      const providers = e.detail.providers;
-      setOptions(providers);
+      const options = e.detail.options;
+      setOptions(options);
 
-      if (providers.some((p) => !p.installPrompt)) {
+      if (options.some((p) => !p.installPrompt)) {
         setSidePanelConfig({ type: "explainer" });
       } else {
         setSidePanelConfig({ type: "none" });
@@ -385,9 +385,9 @@ export function WalletProviderSelector() {
                           data-desc="wallet grid container"
                         >
                           <For each={options()}>
-                            {(provider) => (
+                            {(option) => (
                               <WalletProviderOption
-                                {...provider}
+                                {...option}
                                 onProviderSelected={handleWalletSelected}
                               />
                             )}

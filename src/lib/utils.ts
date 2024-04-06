@@ -63,7 +63,7 @@ export function isInstalled(option: TWalletProviderOption): boolean {
   return !hasInstallPrompt(option);
 }
 
-export type Config = { providers: Array<TWalletProviderOption> };
+export type Config = { options: Array<TWalletProviderOption> };
 
 export function selectWalletProvider(config: Config): Promise<string> {
   return new Promise((resolve, reject) => {

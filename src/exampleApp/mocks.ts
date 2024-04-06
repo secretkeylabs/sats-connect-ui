@@ -2,7 +2,7 @@ import { Config } from "../lib";
 
 export function mockNoneInstalled(): Config {
   return {
-    providers: [
+    options: [
       {
         name: "Wallet 1",
         id: "wallet-1",
@@ -25,7 +25,7 @@ export function mockNoneInstalled(): Config {
 
 export function mockSomeUninstalled(): Config {
   return {
-    providers: [
+    options: [
       {
         name: "Wallet 1",
         id: "wallet-1",
@@ -45,7 +45,7 @@ export function mockSomeUninstalled(): Config {
 
 export function mockAllInstalled(): Config {
   return {
-    providers: [
+    options: [
       {
         name: "Wallet 1",
         id: "wallet-1",
