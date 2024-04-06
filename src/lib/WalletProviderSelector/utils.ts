@@ -1,5 +1,12 @@
-import { SupportedWallet } from "@sats-connect/core";
+import { TWalletProviderOption } from "../utils";
 
-export function openAppStore(provider: SupportedWallet) {
-  window.open(provider.chromeWebStoreUrl, "_blank");
+export function openAppStore(option: TWalletProviderOption) {
+  const url = option.installPrompt?.url;
+
+  if (!url) {
+    console.error("No install prompt URL found for", option.id);
+    return;
+  }
+
+  window.open(url, "_blank");
 }

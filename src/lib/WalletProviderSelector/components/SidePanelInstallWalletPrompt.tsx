@@ -1,24 +1,23 @@
-import { SupportedWallet } from "@sats-connect/core";
-
 import {
   bodyTextStyles,
   buttonTextStyles,
   titleTextStyles,
 } from "../../styles";
+import { TWalletProviderOption } from "../../utils";
 import { openAppStore } from "../utils";
 
 interface Props {
-  provider: SupportedWallet;
+  option: TWalletProviderOption;
 }
 
-export function RightPanelInstallWalletPrompt(props: Props) {
+export function SidePanelInstallWalletPrompt(props: Props) {
   function handleKeyDown(event: KeyboardEvent) {
     if (event.key === "Enter" || event.key === " ") {
-      openAppStore(props.provider);
+      openAppStore(props.option);
     }
   }
   function handleClick() {
-    openAppStore(props.provider);
+    openAppStore(props.option);
   }
   return (
     <>
@@ -45,8 +44,8 @@ export function RightPanelInstallWalletPrompt(props: Props) {
             width: "64px",
             "object-fit": "cover",
           }}
-          src={props.provider.icon}
-          alt={props.provider.name}
+          src={props.option.icon}
+          alt={props.option.name}
         />
         <h1
           style={{
@@ -54,7 +53,7 @@ export function RightPanelInstallWalletPrompt(props: Props) {
             "text-align": "center",
           }}
         >
-          Don't have {props.provider.name}?
+          Don't have {props.option.name}?
         </h1>
         <p style={bodyTextStyles}>Download it on the Chrome web store.</p>
         <div

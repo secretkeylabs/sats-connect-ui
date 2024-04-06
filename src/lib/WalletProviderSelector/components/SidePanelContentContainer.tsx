@@ -1,6 +1,6 @@
 import { ParentProps } from "solid-js";
 
-export function RightPanelContentContainer(props: ParentProps) {
+export function SidePanelContentContainer(props: ParentProps) {
   return (
     <div
       style={{

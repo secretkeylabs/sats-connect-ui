@@ -1,15 +1,6 @@
 import { Dialog } from "@ark-ui/solid";
-import { SupportedWallet } from "@sats-connect/core";
-import {
-  For,
-  Match,
-  Show,
-  Switch,
-  batch,
-  createSignal,
-  onCleanup,
-  onMount,
-} from "solid-js";
+import { For, Match, Show, Switch, batch, onCleanup, onMount } from "solid-js";
+import { createSignal } from "solid-js";
 
 import {
   cancel,
@@ -20,45 +11,58 @@ import {
   walletOpen,
 } from "../constants";
 import { bodyTextStyles, titleTextStyles } from "../styles";
-import { Config } from "../utils";
+import {
+  Config,
+  TWalletProviderOption,
+  hasInstallPrompt,
+  isInstalled,
+} from "../utils";
 
 import { CloseButton } from "./components/CloseButton";
 import { CssReset } from "./components/CssReset";
 import { Divider } from "./components/Divider";
-import { RightPanelContainer } from "./components/RightPanelContainer";
-import { RightPanelContentContainer } from "./components/RightPanelContentContainer";
-import { RightPanelExplainer } from "./components/RightPanelExplainer";
-import { RightPanelInstallWalletPrompt } from "./components/RightPanelInstallWalletPrompt";
-import { RightPanelOpeningWallet } from "./components/RightPanelOpeningWallet";
+import { SidePanelContainer } from "./components/SidePanelContainer";
+import { SidePanelContentContainer } from "./components/SidePanelContentContainer";
+import { SidePanelExplainer } from "./components/SidePanelExplainer";
+import { SidePanelInstallWalletPrompt } from "./components/SidePanelInstallWalletPrompt";
+import { SidePanelOpeningWallet } from "./components/SidePanelOpeningWallet";
 import { WalletProviderOption } from "./components/WalletProviderOption";
-import { TRightPanelDisplay, TRightPanelInstallWalletPrompt } from "./types";
+import { TSidePanelDisplay, TSidePanelInstallWalletPrompt } from "./types";
 import { openAppStore } from "./utils";
 
 const cardRadius = "24px";
 
 export function WalletProviderSelector() {
-  // Note: The user flow when clicking a wallet provider varies depending on
-  // whether the panel is displayed.
-  //
-  // - When the panel is not displayed, clicking an uninstalled wallet provider
-  //   will automatically open the install URL.
-  // - When the panel is displayed, clicking an uninstalled wallet provider will
-  //   display the install prompt in the right panel.
-  const [rightPanel, setRightPanel] = createSignal<HTMLDivElement>();
-  function isDisplayingRightPanel() {
-    const panel = rightPanel();
-    if (!panel) return false;
+  const [root, setRoot] = createSignal<HTMLDivElement>();
+  const [sidePanel, setSidePanel] = createSignal<HTMLDivElement>();
 
-    return getComputedStyle(panel).display !== "none";
+  /**
+   * Checks if the side panel is showing. Used to determine the click behavior
+   * of wallet provider options. See
+   * [`option-click-behavior.md`](../../../docs/option-click-behavior.md) for
+   * details.
+   */
+  function isShowingSidePanel() {
+    const rootEl = root();
+    const sidePanelEl = sidePanel();
+    if (!rootEl || !sidePanelEl) return false;
+
+    if (!rootEl.contains(sidePanelEl)) return false;
+
+    const displayStyle = getComputedStyle(sidePanelEl).display;
+    if (displayStyle === "none") return false;
+
+    return true;
   }
 
   const [isVisible, setIsVisible] = createSignal(false);
   const [shouldRender, setShouldRender] = createSignal(false);
-  const [providers, setProviders] = createSignal<Array<SupportedWallet>>([]);
-  const [rightPanelDisplay, setRightPanelDisplay] =
-    createSignal<TRightPanelDisplay>({ type: "none" });
+  const [options, setOptions] = createSignal<Array<TWalletProviderOption>>([]);
+  const [sidePanelConfig, setSidePanelConfig] = createSignal<TSidePanelDisplay>(
+    { type: "none" },
+  );
 
-  const hasAnyWalletInstalled = () => providers().some((p) => p.isInstalled);
+  const hasAnyWalletInstalled = () => options().some((p) => isInstalled(p));
 
   const triggerFadeOut = () => setIsVisible(false);
 
@@ -72,15 +76,15 @@ export function WalletProviderSelector() {
   }
 
   function handleWalletSelected(walletId: string) {
-    const provider = providers().find(
+    const option = options().find(
       (p) => p.id === walletId,
-    ) as SupportedWallet;
+    ) as TWalletProviderOption;
 
-    if (!provider.isInstalled) {
-      if (!isDisplayingRightPanel()) {
-        openAppStore(provider);
+    if (hasInstallPrompt(option)) {
+      if (!isShowingSidePanel()) {
+        openAppStore(option);
       } else {
-        setRightPanelDisplay({ type: "install-wallet-prompt", provider });
+        setSidePanelConfig({ type: "install-wallet-prompt", option });
       }
       return;
     }
@@ -99,12 +103,12 @@ export function WalletProviderSelector() {
       setShouldRender(true);
 
       const providers = e.detail.providers;
-      setProviders(providers);
+      setOptions(providers);
 
-      if (providers.some((p) => p.isInstalled)) {
-        setRightPanelDisplay({ type: "explainer" });
+      if (providers.some((p) => !p.installPrompt)) {
+        setSidePanelConfig({ type: "explainer" });
       } else {
-        setRightPanelDisplay({ type: "none" });
+        setSidePanelConfig({ type: "none" });
       }
     });
   }
@@ -120,15 +124,17 @@ export function WalletProviderSelector() {
   };
 
   function handleWalletOpen(e: CustomEvent<string>) {
-    const providerId = e.detail;
-    setRightPanelDisplay({
+    const optionId = e.detail;
+    setSidePanelConfig({
       type: "opening-wallet",
-      provider: providers().find((p) => p.id === providerId) as SupportedWallet,
+      option: options().find(
+        (option) => option.id === optionId,
+      ) as TWalletProviderOption,
     });
   }
 
   function handleWalletClose() {
-    setRightPanelDisplay({ type: "explainer" });
+    setSidePanelConfig({ type: "explainer" });
   }
 
   onMount(() => {
@@ -162,8 +168,6 @@ export function WalletProviderSelector() {
     window.removeEventListener(close, handleClose);
   });
 
-  const [root, setRoot] = createSignal<HTMLDivElement>();
-
   return (
     <div
       ref={setRoot}
@@ -193,113 +197,125 @@ export function WalletProviderSelector() {
           to {opacity: 0; backdrop-filter: blur(0px);}
         }
       `}</style>
-      <style>
-        {`
-            .card-width-container {
-              container: card-width-container / inline-size;
-              display: flex;
-              justify-content: center;
-              align-items: center;
-              height: 100%;
-              width: 740px;
-            }
+      <style>{`
+        .card-width-container {
+          container: card-width-container / inline-size;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          height: 100%;
+          width: 740px;
+        }
 
-            .card-height-container {
-              display: flex;
-              flex-direction: column;
-              align-items: center;
-              justify-content: flex-end;
-              height: 100%;
-              width: 100%;
-            }
+        .card-height-container {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: flex-end;
+          height: 100%;
+          width: 100%;
+        }
 
-            .card {
-              min-height: 340px;
-              max-height: calc(100vh - 8rem);
-              width: 100%;
-              border-top-left-radius: ${cardRadius};
-              border-top-right-radius: ${cardRadius};
+        .card {
+          min-height: 340px;
+          max-height: calc(100vh - 8rem);
+          width: 100%;
+          border-top-left-radius: ${cardRadius};
+          border-top-right-radius: ${cardRadius};
 
-              background: rgb(196, 177, 217);
-              overflow: hidden;
+          background: rgb(196, 177, 217);
+          overflow: hidden;
 
-              display: flex;
-              flex-direction: column;
+          display: flex;
+          flex-direction: column;
 
-              position: "relative"; /* For the close button */
-              background-color: #ffffff;
-              display: ${shouldRender() ? "block" : "none"};
+          position: "relative"; /* For the close button */
+          background-color: #ffffff;
+          display: ${shouldRender() ? "block" : "none"};
 
-              box-shadow: 0px 8px 64px 0px rgba(0, 0, 0, 0.25);
-              animation: ${
-                isVisible()
-                  ? "wallet-selector-fade-in 0.4s cubic-bezier(.05, .7, .1, 1) forwards"
-                  : "wallet-selector-fade-out 0.2s cubic-bezier(.3, 0, .8, .15) forwards"
-              };
-            }
+          box-shadow: 0px 8px 64px 0px rgba(0, 0, 0, 0.25);
+          animation: ${
+            isVisible()
+              ? "wallet-selector-fade-in 0.4s cubic-bezier(.05, .7, .1, 1) forwards"
+              : "wallet-selector-fade-out 0.2s cubic-bezier(.3, 0, .8, .15) forwards"
+          };
+        }
 
-            .card-grid {
-              flex-grow: 1;
+        .card-grid {
+          flex-grow: 1;
+          height: 100%;
+          
+          display: grid;
+          grid-template-columns: 1fr;
+          grid-template-areas: "mainPanel";
+        }
 
-              display: grid;
-              height: 100%;
-            }
+        .main-panel {
+          height: 100%;
+          overflow: hidden;
+          display: flex;
+          flex-direction: column;
+          grid-area: mainPanel;
+        }
 
-            .left-panel {
-              height: 100%;
-              overflow: hidden;
-              display: flex;
-              flex-direction: column;
-            }
+        .wallets-grid-container {
+          overflow: auto;
+          flex-grow: 1;
+        }
 
-            .wallets-grid-container {
-              overflow: auto;
-              flex-grow: 1;
-            }
+        .wallets-grid {
 
-            .wallets-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+          align-content: start;
+        }
 
-              display: grid;
-              grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-              align-content: start;
-            }
+        .divider {
+          display: none;
+          grid-area: divider;
+        }
 
-            .right-panel {
-              display: none;
-            }
+        .side-panel {
+          display: none;
+          grid-area: sidePanel;
+        }
 
-            @container card-width-container (width > 400px) {
-              .card-height-container {
-                justify-content: center;
-              }
-  
-              .card {
-                max-width: calc(100vw - 2rem);
-                max-height: 460px;
-                ${hasAnyWalletInstalled() ? "" : "width: 360px;"}
-                border-bottom-left-radius: ${cardRadius};
-                border-bottom-right-radius: ${cardRadius};
-              }
-              .card-grid {
-                grid-template-columns: ${
-                  hasAnyWalletInstalled() ? "5fr auto 4fr" : "1fr"
-                };
-                grid-template-areas: ${
-                  hasAnyWalletInstalled()
-                    ? `"providers divider rightPanel"`
-                    : `"providers"`
-                };
-              }
+        @container card-width-container (width > 400px) {
+          .card-height-container {
+            justify-content: center;
+          }
 
-              .right-panel {
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-                align-items: center;
-              }
-            }
-          `}
-      </style>
+          .card {
+            max-width: calc(100vw - 2rem);
+            max-height: 460px;
+            ${hasAnyWalletInstalled() ? "" : "width: 360px;"}
+            border-bottom-left-radius: ${cardRadius};
+            border-bottom-right-radius: ${cardRadius};
+          }
+
+          .card-grid {
+            grid-template-columns: ${
+              hasAnyWalletInstalled() ? "5fr auto 4fr" : "1fr"
+            };
+            grid-template-areas: ${
+              hasAnyWalletInstalled()
+                ? `"mainPanel divider sidePanel"`
+                : `"mainPanel"`
+            };
+          }
+
+          .divider {
+            display: block;
+          }
+
+          .side-panel {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+          }
+        }
+      `}</style>
       <Show when={shouldRender()}>
         <Dialog.Root
           getRootNode={() => root()?.getRootNode() as Node}
@@ -333,7 +349,7 @@ export function WalletProviderSelector() {
                   onAnimationEnd={handleAnimationEnd}
                 >
                   <div class="card-grid">
-                    <div data-desc="left-panel" class="left-panel">
+                    <div class="main-panel">
                       <Dialog.Title
                         style={{
                           ...titleTextStyles,
@@ -368,7 +384,7 @@ export function WalletProviderSelector() {
                           class="wallets-grid"
                           data-desc="wallet grid container"
                         >
-                          <For each={providers()}>
+                          <For each={options()}>
                             {(provider) => (
                               <WalletProviderOption
                                 {...provider}
@@ -380,62 +396,50 @@ export function WalletProviderSelector() {
                       </div>
                     </div>
 
-                    <Show when={rightPanelDisplay().type !== "none"}>
-                      <div
-                        data-desc="column 2 (divider)"
-                        style={{
-                          "grid-area": "divider",
-                        }}
-                      >
-                        <Divider />
-                      </div>
+                    <Show when={sidePanelConfig().type !== "none"}>
+                      <Divider />
                     </Show>
 
-                    <Show when={rightPanelDisplay().type !== "none"}>
-                      <div
-                        ref={setRightPanel}
-                        id="sats-connect-ui-right-panel"
-                        class="right-panel"
-                        data-desc="right panel"
-                      >
-                        <RightPanelContainer>
-                          <RightPanelContentContainer>
+                    <Show when={sidePanelConfig().type !== "none"}>
+                      <div ref={setSidePanel} class="side-panel">
+                        <SidePanelContainer>
+                          <SidePanelContentContainer>
                             <Switch fallback={null}>
                               <Match
                                 when={
-                                  rightPanelDisplay().type ===
+                                  sidePanelConfig().type ===
                                   "install-wallet-prompt"
                                 }
                               >
-                                <RightPanelInstallWalletPrompt
-                                  provider={
+                                <SidePanelInstallWalletPrompt
+                                  option={
                                     (
-                                      rightPanelDisplay() as TRightPanelInstallWalletPrompt
-                                    ).provider
+                                      sidePanelConfig() as TSidePanelInstallWalletPrompt
+                                    ).option
                                   }
                                 />
                               </Match>
                               <Match
-                                when={rightPanelDisplay().type === "explainer"}
+                                when={sidePanelConfig().type === "explainer"}
                               >
-                                <RightPanelExplainer />
+                                <SidePanelExplainer />
                               </Match>
                               <Match
                                 when={
-                                  rightPanelDisplay().type === "opening-wallet"
+                                  sidePanelConfig().type === "opening-wallet"
                                 }
                               >
-                                <RightPanelOpeningWallet
-                                  provider={
+                                <SidePanelOpeningWallet
+                                  option={
                                     (
-                                      rightPanelDisplay() as TRightPanelInstallWalletPrompt
-                                    ).provider
+                                      sidePanelConfig() as TSidePanelInstallWalletPrompt
+                                    ).option
                                   }
                                 />
                               </Match>
                             </Switch>
-                          </RightPanelContentContainer>
-                        </RightPanelContainer>
+                          </SidePanelContentContainer>
+                        </SidePanelContainer>
                       </div>
                     </Show>
                   </div>
