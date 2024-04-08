@@ -264,10 +264,13 @@ export function WalletProviderSelector() {
         }
 
         .wallets-grid {
-
           display: grid;
           grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
           align-content: start;
+
+          padding-left: 24px;
+          padding-right: 24px;
+          padding-bottom: 40px;
         }
 
         .divider {
