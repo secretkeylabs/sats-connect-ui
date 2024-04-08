@@ -63,7 +63,7 @@ export function mockAllInstalled(): Config {
 export function mockManySomeInstalled() {
   return {
     // 25 wallets
-    providers: Array.from({ length: 50 }, (_, i) => {
+    options: Array.from({ length: 50 }, (_, i) => {
       const id = `wallet-${i + 1}`;
       return {
         name: `Wallet ${i + 1}`,
