@@ -11,9 +11,6 @@
     "build": "tsc && vite build",
     "build-app": "tsc && vite build --config vite.config.app.ts"
   },
-  "dependencies": {
-    "@sats-connect/core": "0.0.4"
-  },
   "devDependencies": {
     "@ark-ui/solid": "2.2.0",
     "@trivago/prettier-plugin-sort-imports": "4.3.0",
