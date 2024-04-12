@@ -1,14 +1,13 @@
-import { SupportedWallet } from "@sats-connect/core";
-
 import { bodyTextStyles, titleTextStyles } from "../../styles";
+import { TWalletProviderOption } from "../../utils";
 
 import { Spinner } from "./Spinner";
 
 interface Props {
-  provider: SupportedWallet;
+  option: TWalletProviderOption;
 }
 
-export function RightPanelOpeningWallet(props: Props) {
+export function SidePanelOpeningWallet(props: Props) {
   return (
     <div
       style={{
@@ -25,8 +24,8 @@ export function RightPanelOpeningWallet(props: Props) {
           width: "64px",
           "object-fit": "cover",
         }}
-        src={props.provider.icon}
-        alt={props.provider.name}
+        src={props.option.icon}
+        alt={props.option.name}
       />
       <h1
         style={{
@@ -34,11 +33,9 @@ export function RightPanelOpeningWallet(props: Props) {
           "text-align": "center",
         }}
       >
-        Opening {props.provider.name}...
+        Opening {props.option.name}...
       </h1>
-      <p style={bodyTextStyles}>
-        Confirm the operation in {props.provider.name}
-      </p>
+      <p style={bodyTextStyles}>Confirm the operation in {props.option.name}</p>
       <Spinner />
     </div>
   );

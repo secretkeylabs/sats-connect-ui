@@ -1,17 +1,17 @@
-import { SupportedWallet } from "@sats-connect/core";
+import { TWalletProviderOption } from "../utils";
 
-export type TRightPanelExplainer = { type: "explainer" };
-export type TRightPanelInstallWalletPrompt = {
+export type TSidePanelExplainer = { type: "explainer" };
+export type TSidePanelInstallWalletPrompt = {
   type: "install-wallet-prompt";
-  provider: SupportedWallet;
+  option: TWalletProviderOption;
 };
-export type TRightPanelNone = { type: "none" };
-export type TRightPanelOpeningWallet = {
+export type TSidePanelNone = { type: "none" };
+export type TSidePanelOpeningWallet = {
   type: "opening-wallet";
-  provider: SupportedWallet;
+  option: TWalletProviderOption;
 };
-export type TRightPanelDisplay =
-  | TRightPanelExplainer
-  | TRightPanelInstallWalletPrompt
-  | TRightPanelNone
-  | TRightPanelOpeningWallet;
+export type TSidePanelDisplay =
+  | TSidePanelExplainer
+  | TSidePanelInstallWalletPrompt
+  | TSidePanelNone
+  | TSidePanelOpeningWallet;

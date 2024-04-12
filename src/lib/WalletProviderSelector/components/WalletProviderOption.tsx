@@ -1,9 +1,9 @@
-import { SupportedWallet } from "@sats-connect/core";
 import { createMemo, createSignal } from "solid-js";
 
 import { bodyTextStyles } from "../../styles";
+import { TWalletProviderOption, hasInstallPrompt } from "../../utils";
 
-interface Props extends SupportedWallet {
+interface Props extends TWalletProviderOption {
   onProviderSelected: (walletId: string) => void;
 }
 
@@ -12,7 +12,7 @@ export function WalletProviderOption(props: Props) {
     props.onProviderSelected(props.id);
   }
 
-  const role = createMemo(() => (props.isInstalled ? "button" : "link"));
+  const role = createMemo(() => (hasInstallPrompt(props) ? "button" : "link"));
 
   function handleKeyDown(e: KeyboardEvent) {
     if (role() === "link") {

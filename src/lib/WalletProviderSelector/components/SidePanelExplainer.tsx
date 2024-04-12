@@ -1,6 +1,6 @@
 import { bodyTextStyles, titleTextStyles } from "../../styles";
 
-export function RightPanelExplainer() {
+export function SidePanelExplainer() {
   return (
     <div
       style={{
