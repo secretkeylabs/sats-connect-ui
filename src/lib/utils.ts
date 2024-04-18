@@ -14,6 +14,7 @@ export const elementId = "sats-connect-wallet-provider-selector";
 export const elementName = elementId;
 
 export function getWalletProviderSelectorElement() {
+  if (typeof window === "undefined" || typeof document === "undefined") return;
   return document.getElementById(elementId);
 }
 
@@ -22,6 +23,7 @@ export function getWalletProviderSelectorElement() {
  * definition and adds it to the `<body>`.
  */
 export function loadSelector() {
+  if (typeof window === "undefined" || typeof document === "undefined") return;
   if (customElements.get(elementName)) {
     return;
   }
