@@ -22,8 +22,5 @@
     "vite": "5.1.6",
     "vite-plugin-dts": "3.7.3",
     "vite-plugin-solid": "2.10.1"
-  },
-  "dependencies": {
-    "@sats-connect/ui": "^0.0.4-66a9179"
   }
 }
