@@ -67,6 +67,7 @@ export function WalletProviderSelector() {
   const triggerFadeOut = () => setIsVisible(false);
 
   function handleCancelClick() {
+    if (typeof window === "undefined") return;
     const event = new CustomEvent(cancel, {
       bubbles: true,
       composed: true,
@@ -88,7 +89,7 @@ export function WalletProviderSelector() {
       }
       return;
     }
-
+    if (typeof window === "undefined") return;
     const event = new CustomEvent(select, {
       detail: walletId,
       bubbles: true,
@@ -165,6 +166,7 @@ export function WalletProviderSelector() {
   }
 
   onCleanup(() => {
+    if (typeof window === "undefined") return;
     window.removeEventListener(open, handleOpen);
     window.removeEventListener(close, handleClose);
   });

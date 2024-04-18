@@ -7,6 +7,6 @@ export function openAppStore(option: TWalletProviderOption) {
     console.error("No install prompt URL found for", option.id);
     return;
   }
-
+  if (typeof window === "undefined") return;
   window.open(url, "_blank");
 }

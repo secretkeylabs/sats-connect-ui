@@ -74,6 +74,7 @@ export function selectWalletProvider(config: Config): Promise<string> {
     }
 
     function cleanup() {
+      if (typeof window === "undefined") return;
       window.removeEventListener(select, handleWalletSelectorSelectEvent);
 
       window.removeEventListener(cancel, handleWalletSelectorCancelEvent);
@@ -101,6 +102,7 @@ export function selectWalletProvider(config: Config): Promise<string> {
 }
 
 export function walletOpen(wallet: string) {
+  if (typeof window === "undefined") return;
   const event = new CustomEvent(walletOpenEventName, {
     detail: wallet,
   });
@@ -108,11 +110,13 @@ export function walletOpen(wallet: string) {
 }
 
 export function walletClose() {
+  if (typeof window === "undefined") return;
   const event = new CustomEvent(walletCloseEventName);
   window.dispatchEvent(event);
 }
 
 export function close() {
+  if (typeof window === "undefined") return;
   const event = new CustomEvent(closeEventName);
   window.dispatchEvent(event);
 }
