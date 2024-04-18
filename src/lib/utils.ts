@@ -88,7 +88,7 @@ export function selectWalletProvider(config: Config): Promise<string> {
       reject();
       cleanup();
     }
-
+    if (typeof window === "undefined") return;
     window.addEventListener(select, handleWalletSelectorSelectEvent);
 
     window.addEventListener(cancel, handleWalletSelectorCancelEvent);

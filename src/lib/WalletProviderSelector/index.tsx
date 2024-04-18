@@ -138,6 +138,7 @@ export function WalletProviderSelector() {
   }
 
   onMount(() => {
+    if (typeof window === "undefined") return;
     window.addEventListener(open, handleOpen);
     window.addEventListener(close, handleClose);
     window.addEventListener(walletOpen, handleWalletOpen);
