@@ -61,12 +61,12 @@ export function WalletProviderOption(props: Props) {
           outline: "none",
           "padding-top": "10px",
         }}
-        onClick={handleWalletSelected}
-        onKeyDown={handleKeyDown}
-        onMouseEnter={() => setIsMouseOver(true)}
-        onMouseLeave={() => setIsMouseOver(false)}
-        onFocus={() => setIsFocused(true)}
-        onBlur={() => setIsFocused(false)}
+        on:click={handleWalletSelected}
+        on:keydown={handleKeyDown}
+        on:mouseenter={() => setIsMouseOver(true)}
+        on:mouseleave={() => setIsMouseOver(false)}
+        on:focus={() => setIsFocused(true)}
+        on:blur={() => setIsFocused(false)}
       >
         <img
           style={{

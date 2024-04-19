@@ -60,8 +60,8 @@ export function SidePanelInstallWalletPrompt(props: Props) {
           class="install-prompt-button"
           role="button"
           tabIndex={0}
-          onClick={handleClick}
-          onKeyDown={handleKeyDown}
+          on:click={handleClick}
+          on:keydown={handleKeyDown}
           style={{
             ...buttonTextStyles,
             cursor: "pointer",

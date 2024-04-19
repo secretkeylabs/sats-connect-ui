@@ -60,8 +60,8 @@ export function CloseButton(props: Props) {
           margin: "0",
           "border-radius": "50%",
         }}
-        onClick={props.onClose}
-        onKeyDown={handleKeyDown}
+        on:click={props.onClose}
+        on:keydown={handleKeyDown}
       >
         <XCircle />
       </div>
