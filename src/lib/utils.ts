@@ -30,6 +30,11 @@ export function loadSelector() {
 
   const element = document.createElement(elementName);
   element.id = elementId;
+
+  // Ensure above all else
+  element.style.position = "relative";
+  element.style.zIndex = "999999";
+
   document.body.appendChild(element);
 }
 
