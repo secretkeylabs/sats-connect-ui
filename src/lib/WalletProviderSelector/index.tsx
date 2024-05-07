@@ -365,7 +365,7 @@ export function WalletProviderSelector() {
         >
           <div
             style={{
-              "background-color": "#FF00FF80",
+              "background-color": "#FFFFFF80",
               position: "absolute",
               inset: "0",
               animation: isVisible()
