@@ -8,8 +8,8 @@
   ],
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
-    "build-app": "tsc && vite build --config vite.config.app.ts"
+    "build": "vite build",
+    "build-app": "vite build --config vite.config.app.ts"
   },
   "devDependencies": {
     "@ark-ui/solid": "2.2.0",

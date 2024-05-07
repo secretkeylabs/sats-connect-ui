@@ -1,5 +1,13 @@
-import { Dialog } from "@ark-ui/solid";
-import { For, Match, Show, Switch, batch, onCleanup, onMount } from "solid-js";
+import {
+  For,
+  Match,
+  Show,
+  Switch,
+  batch,
+  createEffect,
+  onCleanup,
+  onMount,
+} from "solid-js";
 import { createSignal } from "solid-js";
 
 import {
@@ -34,6 +42,7 @@ const cardRadius = "24px";
 
 export function WalletProviderSelector() {
   const [root, setRoot] = createSignal<HTMLDivElement>();
+  const [card, setCard] = createSignal<HTMLDivElement>();
   const [sidePanel, setSidePanel] = createSignal<HTMLDivElement>();
 
   /**
@@ -74,6 +83,21 @@ export function WalletProviderSelector() {
     window.dispatchEvent(event);
     triggerFadeOut();
   }
+
+  function handleEscKeyDown(e: KeyboardEvent) {
+    if (e.key === "Escape") {
+      handleCancelClick();
+    }
+  }
+
+  createEffect(() => {
+    if (isVisible()) {
+      window.addEventListener("keydown", handleEscKeyDown);
+      return;
+    }
+
+    window.removeEventListener("keydown", handleEscKeyDown);
+  });
 
   function handleWalletSelected(walletId: string) {
     const option = options().find(
@@ -158,15 +182,24 @@ export function WalletProviderSelector() {
     );
   });
 
-  function handleAsCancelled(e: Event) {
-    e.preventDefault();
-    handleCancelClick();
-  }
-
   onCleanup(() => {
     window.removeEventListener(open, handleOpen);
     window.removeEventListener(close, handleClose);
   });
+
+  function handleRootClick(e: MouseEvent) {
+    const target = e.target;
+    if (!target) return;
+
+    const cardEl = card();
+    if (!cardEl) return;
+
+    if (cardEl.contains(target as Node)) {
+      return;
+    }
+
+    handleCancelClick();
+  }
 
   return (
     <div
@@ -174,6 +207,10 @@ export function WalletProviderSelector() {
       style={{
         position: shouldRender() ? "fixed" : "static",
         inset: "0",
+      }}
+      on:click={handleRootClick}
+      on:keydown={() => {
+        console.log("Inside root keydown");
       }}
     >
       <CssReset />
@@ -320,14 +357,13 @@ export function WalletProviderSelector() {
         }
       `}</style>
       <Show when={shouldRender()}>
-        <Dialog.Root
-          getRootNode={() => root()?.getRootNode() as Node}
-          open={shouldRender()}
-          onEscapeKeyDown={handleAsCancelled}
-          onInteractOutside={handleAsCancelled}
-          onPointerDownOutside={handleAsCancelled}
+        <div
+          style={{
+            position: "fixed",
+            inset: "0",
+          }}
         >
-          <Dialog.Backdrop
+          <div
             style={{
               "background-color": "#FFFFFF80",
               position: "absolute",
@@ -337,7 +373,7 @@ export function WalletProviderSelector() {
                 : "wallet-selector-blur-out 0.2s cubic-bezier(.3, 0, .8, .15) forwards",
             }}
           />
-          <Dialog.Positioner
+          <div
             style={{
               display: "flex",
               "justify-content": "center",
@@ -347,13 +383,14 @@ export function WalletProviderSelector() {
           >
             <div class="card-width-container">
               <div class="card-height-container">
-                <Dialog.Content
+                <div
+                  ref={setCard}
                   class="card"
-                  onAnimationEnd={handleAnimationEnd}
+                  on:animationend={handleAnimationEnd}
                 >
                   <div class="card-grid">
                     <div class="main-panel">
-                      <Dialog.Title
+                      <div
                         style={{
                           ...titleTextStyles,
                           margin: "0",
@@ -366,8 +403,8 @@ export function WalletProviderSelector() {
                         {hasAnyWalletInstalled()
                           ? "Choose wallet to connect"
                           : "Don't have a wallet?"}
-                      </Dialog.Title>
-                      <Dialog.Description
+                      </div>
+                      <div
                         style={{
                           ...bodyTextStyles,
                           "padding-left": "24px",
@@ -378,7 +415,7 @@ export function WalletProviderSelector() {
                         {hasAnyWalletInstalled()
                           ? "Start by selecting with one of the wallets below and confirming the connection."
                           : "Start by installing one of the wallets below."}
-                      </Dialog.Description>
+                      </div>
                       <div
                         class="wallets-grid-container"
                         data-desc="wallet grid container for padding"
@@ -447,11 +484,11 @@ export function WalletProviderSelector() {
                     </Show>
                   </div>
                   <CloseButton onClose={handleCancelClick} />
-                </Dialog.Content>
+                </div>
               </div>
             </div>
-          </Dialog.Positioner>
-        </Dialog.Root>
+          </div>
+        </div>
       </Show>
     </div>
   );
