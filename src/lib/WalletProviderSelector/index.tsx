@@ -413,7 +413,7 @@ export function WalletProviderSelector() {
                         }}
                       >
                         {hasAnyWalletInstalled()
-                          ? "Start by selecting with one of the wallets below and confirming the connection."
+                          ? "Start by selecting one of the wallets below and confirming the connection."
                           : "Start by installing one of the wallets below."}
                       </div>
                       <div
