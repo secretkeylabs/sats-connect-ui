@@ -22,5 +22,9 @@
     "vite": "5.1.6",
     "vite-plugin-dts": "3.7.3",
     "vite-plugin-solid": "2.10.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/secretkeylabs/sats-connect-ui.git"
   }
 }
